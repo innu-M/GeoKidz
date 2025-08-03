@@ -4,140 +4,140 @@
     "capital": "Dhaka",
     "language": "Bengali",
     "flag": "/images/flags/Flag_of_Bangladesh.png",
-    "currency": "BDT"
+    "currency": "Taka"
   },
   {
     "country": "India",
     "capital": "New Delhi",
     "language": "Hindi",
     "flag": "/images/flags/Flag_of_India.jpg",
-    "currency": "INR"
+    "currency": "Rupee"
   },
   {
     "country": "United States",
     "capital": "Washington D.C.",
     "language": "English",
-    "flag": "/images/flags/Flag_of_The_United_States",
-    "currency": "USD"
+    "flag": "/images/flags/Flag_of_the_United_States.svg.png",
+    "currency": "Dollar"
   },
   {
     "country": "United Kingdom",
     "capital": "London",
     "language": "English",
-    "flag": "/images/flags/Flag_of_the_United_States.svg.png",
-    "currency": "GBP"
+    "flag": "/images/flags/Flag_of_the_United_Kingdom_(1-2).svg.png",
+    "currency": "Pound"
   },
   {
     "country": "France",
     "capital": "Paris",
     "language": "French",
     "flag": "/images/flags/Flag_of_France.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Germany",
     "capital": "Berlin",
     "language": "German",
-    "flag": "/images/flags/germany.png",
-    "currency": "EUR"
+    "flag": "/images/flags/Flag_of_Germany.svg.png",
+    "currency": "Euro"
   },
   {
     "country": "Japan",
     "capital": "Tokyo",
     "language": "Japanese",
     "flag": "/images/flags/Flag_of_Japan.svg.png",
-    "currency": "JPY"
+    "currency": "Yen"
   },
   {
     "country": "China",
     "capital": "Beijing",
     "language": "Mandarin",
-    "flag": "/images/flags/Flag_of_the_People's_Republic_of_China.svg",
-    "currency": "CNY"
+    "flag": "/images/flags/Flag_of_China.png",
+    "currency": "Yuan"
   },
   {
     "country": "Brazil",
     "capital": "Brasília",
     "language": "Portuguese",
     "flag": "/images/flags/Flag_of_Brazil.svg.png",
-    "currency": "BRL"
+    "currency": "Real"
   },
   {
     "country": "Russia",
     "capital": "Moscow",
     "language": "Russian",
-    "flag": "/images/flags/Flag_of_Russia.jpg.webp",
-    "currency": "RUB"
+    "flag": "/images/flags/Flag_of_Russia.jpg.png",
+    "currency": "Ruble"
   },
   {
     "country": "Algeria",
     "capital": "Algiers",
     "language": "Arabic and Tamazight",
-    "flag": "/images/flags/Flag_of_Algeria.png.svg",
-    "currency": "DZD"
+    "flag": "/images/flags/Flag_of_Algeria.png.png",
+    "currency": "Dinar"
   },
   {
     "country": "Antigua and Barbuda",
     "capital": "St. John's",
     "language": "English",
-    "flag": "/images/flags/Flag_of_Antigua_and_Barbuda.svg",
-    "currency": "XCD"
+    "flag": "/images/flags/Flag_of_Antigua_and_Barbuda.png",
+    "currency": "Dollar"
   },
   {
     "country": "Argentina",
     "capital": "Buenos Aires",
     "language": "Spanish",
     "flag": "/images/flags/Flag_of_Argentina.png",
-    "currency": "ARS"
+    "currency": "Peso"
   },
   {
     "country": "Australia",
     "capital": "Canberra",
     "language": "English",
     "flag": "/images/flags/Flag_of_Australia.svg.png",
-    "currency": "AUD"
+    "currency": "Dollar"
   },
   {
     "country": "Bosnia",
     "capital": "Sarajevo",
     "language": "Bosnian, Serbian, and Croatian",
-    "flag": "/images/flags/Flag_of_Bosnia_and_Herzegovina.svg",
-    "currency": "BAM"
+    "flag": "/images/flags/Flag_of_Bosnia.png",
+    "currency": "Co"
   },
   {
     "country": "Bulgaria",
     "capital": "Sofia",
     "language": "Bulgarian",
     "flag": "/images/flags/Flag_of_Bulgaria.svg.png",
-    "currency": "BGN"
+    "currency": "Lev"
   },
   {
     "country": "Canada",
     "capital": "Ottawa",
     "language": "French",
     "flag": "/images/flags/Flag_of_Canada.svg.png",
-    "currency": "CAD"
+    "currency": "Dollar"
   },
   {
     "country": "Chile",
     "capital": "Santiago",
     "language": "Spanish",
     "flag": "/images/flags/Flag_of_Chile.svg.png",
-    "currency": "CLP"
+    "currency": "Peso"
   },
   {
     "country": "Colombia",
     "capital": "Bogotá",
     "language": "Spanish",
-    "flag": "/images/flags/Flag_of_Colombia.svg",
-    "currency": "COP"
+    "flag": "/images/flags/Flag_of_Colombia.png",
+    "currency": "Peso"
   },
   {
     "country": "Cyprus",
     "capital": "Nicosia",
     "language": "Greek Turkish",
     "flag": "/images/flags/Flag_of_Cyprus.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Croatia",
@@ -151,70 +151,70 @@
     "capital": "St.Helier",
     "language": "English and French",
     "flag": "/images/flags/Flag_of_the_Channel_Islands.svg.png",
-    "currency": "GBP"
+    "currency": "pound sterling"
   },
   {
     "country": "Czech Republic",
     "capital": "Prague",
     "language": "Czech",
     "flag": "/images/flags/Flag_of_the_Czech_Republic.svg.png",
-    "currency": "CZK"
+    "currency": "Koruna"
   },
   {
     "country": "Denmark",
     "capital": "Copenhagen",
     "language": "Danish",
     "flag": "/images/flags/Flag_of_Denmark.svg.png",
-    "currency": "DKK"
+    "currency": "Krone"
   },
   {
     "country": "Dutch_Antilles",
     "capital": "Willemstad",
     "language": "Dutch",
-    "flag": "/images/flags/Flag_of_Dutch_Antilles.svg",
-    "currency": "ANG"
+    "flag": "/images/flags/Flag_of_Dutch_Antilles.png",
+    "currency": "Euro"
   },
   {
     "country": "Egypt",
     "capital":"Cairo",
     "language": "Arabic",
     "flag": "/images/flags/Flag_of_Egypt.svg.png",
-    "currency": "EGP"
+    "currency": "Pound"
   },
   {
     "country": "Finland",
     "capital": "Helsinki",
     "language": "Finnish and Swedish",
     "flag": "/images/flags/Flag_of_Finland.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Germany",
     "capital": "Berlin",
     "language": "German",
     "flag": "/images/flags/Flag_of_Germany.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Gabon",
     "capital": "Libreville",
     "language": "French",
-    "flag": "/images/flags/Flag_of_Gabon.jpg.webp",
-    "currency": "XAF"
+    "flag": "/images/flags/Flag_of_Gabon.jpg.png",
+    "currency": "Fran"
   },
   {
     "country": "Ghana",
     "capital": "Accra",
     "language": "English",
     "flag": "/images/flags/Flag_of_Ghana.svg.png",
-    "currency": "GHS"
+    "currency": "Cedi"
   },
   {
     "country": "Greece",
     "capital": "Athens",
     "language": "Greek",
     "flag": "/images/flags/Flag_of_Greece.jpg",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Gambia",
@@ -228,245 +228,245 @@
     "capital": "Victoria City",
     "language": "Chinese",
     "flag": "/images/flags/Flag_of_Hong_Kong.svg.png",
-    "currency": "HKD"
+    "currency": "Dollar"
   },
   {
     "country": "Hungary",
     "capital": "Budapest",
     "language": "Hungarian",
     "flag": "/images/flags/Flag_of_Hungary.svg.png",
-    "currency": "HUF"
+    "currency": "Forint"
   },
   {
     "country": "Iran",
     "capital": "Tehran",
     "language": "Persian",
     "flag": "/images/flags/Flag_of_Iran.svg.png",
-    "currency": "IRR"
+    "currency": "Rial"
   },
   {
     "country": "Italy",
     "capital": "Rome",
     "language": "Italian",
     "flag": "/images/flags/Flag_of_Italy.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Ireland",
     "capital": "Dublin",
     "language": "Irish",
     "flag": "/images/flags/Flag_of_Ireland.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Jamaica",
     "capital": "Kingston",
     "language": "English",
     "flag": "/images/flags/Flag_of_Jamaica.svg.png",
-    "currency": "JMD"
+    "currency": "Dollar"
   },
   {
     "country": "Kuwait",
     "capital": "Kuwait City",
     "language": "Arabic",
     "flag": "/images/flags/Flag_of_Kuwait.svg.png",
-    "currency": "KWD"
+    "currency": "Dinar"
   },
   {
     "country": "Kenya",
     "capital": "Nairobi",
     "language": "Kiswahili",
     "flag": "/images/flags/Flag_of_Kenya.svg.png",
-    "currency": "KES"
+    "currency": "Shilling"
   },
   {
     "country": "Malaysia",
     "capital": "Kuala Lumpur",
     "language": "Malay",
     "flag": "/images/flags/Flag_of_Malaysia.svg.png",
-    "currency": "MYR"
+    "currency": "Ringgit"
   },
   {
     "country": "Lithuania",
     "capital": "Vilnius",
     "language": "Lithuanian",
-    "flag": "/images/flags/Flag_of_Lithuania.jpg.webp",
-    "currency": "EUR"
+    "flag": "/images/flags/Flag_of_Lithuania.jpg.png",
+    "currency": "Euro"
   },
   {
     "country": "Mauritania",
     "capital": "Nouakchott",
     "language": "Arabic",
-    "flag": "/images/flags/Flag_of_Mauritania.jpg.webp",
-    "currency": "MRU"
+    "flag": "/images/flags/Flag_of_Mauritania.jpg.png",
+    "currency": "Ouguiya"
   },
   {
     "country": "Mauritius",
     "capital": "Port Louis",
     "language": "English",
     "flag": "/images/flags/Flag_of_Mauritius.svg.png",
-    "currency": "MUR"
+    "currency": "Rupee"
   },
   {
     "country": "Montenegro",
     "capital": "Podgorica",
     "language": "Montenegrin",
-    "flag": "/images/flags/Flag_of_Montenegro.png",
-    "currency": "EUR"
+    "flag": "/images/flags/Flag_of_Montenegro.svg.png",
+    "currency": "Euro"
   },
   {
     "country": "Namibia",
     "capital": "Windhoek",
     "language": "English",
-    "flag": "/images/flags/Flag_of_Namibia.jpg.webp",
-    "currency": "NAD"
+    "flag": "/images/flags/Flag_of_Namibia.jpg.png",
+    "currency": "Rand"
   },
   {
     "country": "New Zealand",
     "capital": "Wellington",
     "language": "English",
     "flag": "/images/flags/Flag_of_New_Zealand.svg.png",
-    "currency": "NZD"
+    "currency": "Dollar"
   },
   {
     "country": "North Macedonia",
     "capital": "Skopje",
     "language": "Macedonian and Albanian",
     "flag": "/images/flags/Flag_of_North_Macedonia.svg.png",
-    "currency": "MKD"
+    "currency": "Denar"
   },
   {
     "country": "Nigeria",
     "capital": "Abuja",
     "language": "English",
     "flag": "/images/flags/Flag_of_Nigeria.svg.png",
-    "currency": "NGN"
+    "currency": "Naira"
   },
   {
     "country": "Nepal",
     "capital": "Kathmandu",
     "language": "Nepali",
     "flag": "/images/flags/Flag_of_Nepal.svg.png",
-    "currency": "NRS"
+    "currency": "Rupee"
   },
   {
     "country": "Pakistan",
     "capital": "Islamabad",
     "language": "Urdu",
-    "flag": "/images/flags/Flag_of_Pakistan.svg",
-    "currency": "PKR"
+    "flag": "/images/flags/Flag_of_Pakistan.png",
+    "currency": "Rupee"
   },
   {
     "country": "Poland",
     "capital": "Warsaw",
     "language": "Polish",
     "flag": "/images/flags/Flag_of_Poland.svg.png",
-    "currency": "PLN"
+    "currency": "złoty"
   },
   {
     "country": "Portugal",
     "capital": "Lisbon",
     "language": "Portuguese",
     "flag": "/images/flags/Flag_of_Portugal.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Romania",
     "capital": "Bucharest",
     "language": "Romanian",
-    "flag": "/images/lags/Flag_of_Romania.svg.png",
-    "currency": "RON"
+    "flag": "/images/flags/Flag_of_Romania.svg.png",
+    "currency": "Leu"
   },
   {
     "country": "Rwanda",
     "capital": "Kigali",
     "language": "Kinyarwanda, French, and English",
-    "flag": "/images/flags/Flag_of_Rwanda",
-    "currency": "RWF"
+    "flag": "/images/flags/Flag_of_Rwanda.svg.png",
+    "currency": "Franc"
   },
   {
     "country": "Saudi Arabia",
     "capital": "Riyadh",
     "language": "Arabic",
     "flag": "/images/flags/Flag_of_Saudi_Arabia.svg.png",
-    "currency": "SAR"
+    "currency": "Riyal"
   },
   {
     "country": "Serbia",
     "capital": "Belgrade",
     "language": "Serbian",
-    "flag": "/images/flags/Flag_of_Serbia.jpg.webp",
-    "currency": "RSD"
+    "flag": "/images/flags/Flag_of_Serbia.jpg.png",
+    "currency": "Dinar"
   },
   {
     "country": "Singapore",
     "capital": "Singapore",
     "language": "English",
-    "flag": "/images/flags/Flag_of_Singapore.png.svg",
-    "currency": "SGD"
+    "flag": "/images/flags/Flag_of_Singapore.png.png",
+    "currency": "Dollar"
   },
   {
     "country": "Slovenia",
     "capital": "Ljubljana",
     "language": "Slovene",
     "flag": "/images/flags/Flag_of_Slovenia.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "Slovakia",
     "capital": "Bratislava",
     "language": "Slovak",
     "flag": "/images/flags/Flag_of_Slovakia.svg.png",
-    "currency": "EUR"
+    "currency": "Euro"
   },
   {
     "country": "South Africa",
     "capital": "Pretoria(administrative),Cape Town(legislative) and Bloemfontein(judicial)",
     "language": "English",
     "flag": "/images/flags/Flag_of_South_Africa.svg.png",
-    "currency": "ZAR"
+    "currency": "Rand"
   },
   {
     "country": "South Korea",
     "capital": "Seoul",
     "language": "Korean",
     "flag": "/images/flags/Flag_of_South_Korea.svg.png",
-    "currency": "KRW"
+    "currency": "Won"
   },
   {
     "country": "Spain",
     "capital": "Madrid",
     "language": "Spanish",
-    "flag": "flags/Flag_of_Spain.png",
-    "currency": "EUR"
+    "flag": "/images/flags/Flag_of_Spain.png",
+    "currency": "Euro"
   },
   {
     "country": "Sudan",
     "capital": "Khartoum",
     "language": "Arabic and English",
-    "flag":"/images/flags/Flag_of_Sudan.jpg.webp",
-    "currency": "SDG"
+    "flag": "/images/flags/Flag_of_Sudan.png",
+    "currency": "Pound"
   },
   {
     "country": "Sri Lanka",
     "capital": "Colombo",
     "language": "Sinhala and Tamil",
     "flag": "/images/flags/Flag_of_Sri_Lanka.png",
-    "currency": "LKR"
+    "currency": "Rupee"
   },
   {
     "country": "Sweden",
     "capital": "Stockholm",
     "language": "Swedish",
     "flag": "/images/flags/Flag_of_Sweden.svg.png",
-    "currency": "SEK"
+    "currency": "Krona"
   },
   {
     "country": "Switzerland",
     "capital": "Bern",
     "language": "German",
     "flag": "/images/flags/Flag_of_Switzerland.jpg",
-    "currency": "CHF"
+    "currency": "Franc"
   },
   {
     "country": "Philippines",
@@ -480,14 +480,14 @@
     "capital": "Ankara",
     "language": "Turkish",
     "flag": "/images/flags/Flag_of_Turkey.svg.png",
-    "currency": "TRY"
+    "currency": "Lira"
   },
   {
     "country": "Trinidad",
     "capital": "Tobago",
     "language": "English",
     "flag": "/images/flags/Flag_of_Trinidad_and_Tobago.svg.png",
-    "currency":"TTD"
+    "currency":"Dollar"
   },
   {
     "country": "Zambia",
@@ -501,13 +501,13 @@
     "capital": "Harare",
     "language": "English",
     "flag": "/images/flags/Flag_of_Zimbabwe.svg.png",
-    "currency": "USD"
+    "currency": "Dollar"
   },
   {
     "country": "Afghanistan",
     "capital": "Kabul",
     "language": "Persian",
-    "flag": "/images/flags/Flag_of_Afghanistan.jpg.webp",
-    "currency": "AFN"
+    "flag": "/images/flags/Flag_of_Afghanistan.jpg.png",
+    "currency": "Afghan Afghani"
   }
 ]
