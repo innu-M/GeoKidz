@@ -10,9 +10,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import javax.swing.Timer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import java.net.URL;
 
 public class QuizPanel extends BackgroundPanel {
@@ -26,13 +23,16 @@ public class QuizPanel extends BackgroundPanel {
     private int score = 0;
     private int questionCount = 0;
     private final int totalQuestions = 10;
+    private boolean quizCompleted = false;
+    private List<String> currentOptions = new ArrayList<>();
 
     private JLabel questionLabel;
     private JLabel scoreLabel;
     private JButton[] optionButtons;
     private JLabel resultLabel;
     private JLabel flagLabel;
-    private boolean quizCompleted = false;
+    private JButton nextButton;
+    private JButton prevButton;
 
     public QuizPanel(GameController gameController, Runnable onBack, AudioController audioController, int levelType) {
         super("/images/allbg.png");
@@ -40,15 +40,37 @@ public class QuizPanel extends BackgroundPanel {
         this.onBack = onBack;
         this.audioController = audioController;
         this.levelType = levelType;
-        this.countries = new ArrayList<>(gameController.getCountries());
-        if (countries.isEmpty()) {
-            showError("No country data loaded");
+        this.countries=gameController.getValidCountriesForQuiz(levelType);
+        System.out.println("Countries count: " + countries.size());
+        countries.forEach(c -> System.out.println(c.getCountry()));
+
+        if (countries.size() < 4) {
+            showError("Not enough valid countries (" + countries.size() + "). Need at least 4.");
             return;
         }
-
         initUI();
         nextQuestion();
     }
+    /*private void validateCountryData() {
+        Iterator<Country> iterator = countries.iterator();
+        while (iterator.hasNext()) {
+            Country country = iterator.next();
+            if (country.getName() == null ||
+                    (levelType == 2 && country.getCapital() == null) ||
+                    (levelType == 3 && country.getCurrency() == null) ||
+                    (levelType == 4 && country.getLanguage() == null)) {
+                iterator.remove();
+            }
+        }
+        System.out.println("Valid countries count: " + countries.size());
+
+
+        if (countries.size() < 4) {
+            showError("Not enough valid countries for quiz");
+        }
+    }
+
+     */
 
     private void initUI() {
         setLayout(new GridBagLayout());
@@ -65,7 +87,7 @@ public class QuizPanel extends BackgroundPanel {
         // Score Display
         scoreLabel = new JLabel("Score: 0/" + totalQuestions);
         scoreLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-        scoreLabel.setForeground(Color.black);
+        scoreLabel.setForeground(Color.BLACK);
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.NORTHEAST;
         add(scoreLabel, gbc);
@@ -81,7 +103,7 @@ public class QuizPanel extends BackgroundPanel {
         // Question
         questionLabel = new JLabel();
         questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-        questionLabel.setForeground(Color.black);
+        questionLabel.setForeground(Color.BLACK);
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridy = 2;
         add(questionLabel, gbc);
@@ -92,8 +114,10 @@ public class QuizPanel extends BackgroundPanel {
         optionButtons = new JButton[4];
 
         for (int i = 0; i < 4; i++) {
-            optionButtons[i] = new TextOverlayButton("Option " + (i+1), "/images/button_bg.png");
+            optionButtons[i] = new JButton();
             optionButtons[i].setFont(new Font("Tahoma", Font.BOLD, 16));
+            optionButtons[i].setBackground(new Color(240, 240, 240));
+            optionButtons[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             optionButtons[i].setForeground(Color.BLACK);
             optionButtons[i].addActionListener(e -> checkAnswer(e.getSource()));
             optionsPanel.add(optionButtons[i]);
@@ -108,28 +132,97 @@ public class QuizPanel extends BackgroundPanel {
         resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridy = 4;
         add(resultLabel, gbc);
+
+        // Navigation Buttons
+        JPanel navPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        navPanel.setOpaque(false);
+
+        prevButton = new JButton("Previous");
+        prevButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+        prevButton.addActionListener(e -> prevQuestion());
+
+        nextButton = new JButton("Next");
+        nextButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+        nextButton.addActionListener(e -> nextQuestion());
+
+        navPanel.add(prevButton);
+        navPanel.add(nextButton);
+
+        gbc.gridy = 5;
+        add(navPanel, gbc);
     }
 
     private void nextQuestion() {
         if (quizCompleted) {
+            showFinalScore();
             return;
         }
+
+        resultLabel.setText("");
 
         if (questionCount >= totalQuestions) {
             showFinalScore();
             return;
         }
 
-        resultLabel.setText("");
-        if (countries.isEmpty()) {
-            showError("No country data available");
-            return;
+        // Reset button states
+        for (JButton button : optionButtons) {
+            button.setEnabled(true);
+            button.setBackground(new Color(240, 240, 240));
         }
 
+        // For mastery level, randomize question type each time
+        if (levelType == 5) {
+            levelType = new Random().nextInt(4) + 1;
+        }
+
+        // Get a random country
         Collections.shuffle(countries);
         currentCountry = countries.get(0);
 
-        // Set flag image
+        switch (levelType) {
+            case 1: // Flag
+                questionLabel.setText("Which country's flag is this?");
+                correctAnswer = currentCountry.getCountry();
+                loadFlagImage();
+                break;
+            case 2: // Capital
+                questionLabel.setText(String.format("What is the capital of %s?", currentCountry.getCountry()));
+                correctAnswer = currentCountry.getCapital();
+                flagLabel.setIcon(null);
+                break;
+            case 3: // Currency
+                questionLabel.setText(String.format("What currency is used in %s?", currentCountry.getCountry()));
+                correctAnswer = currentCountry.getCurrency();
+                flagLabel.setIcon(null);
+                break;
+            case 4: // Language
+                questionLabel.setText(String.format("What language is spoken in %s?", currentCountry.getCountry()));
+                correctAnswer = currentCountry.getLanguage();
+                flagLabel.setIcon(null);
+                break;
+        }
+
+        // Generate options with proper names
+        currentOptions = generateOptions(correctAnswer);
+        for (int i = 0; i < 4 && i < currentOptions.size(); i++) {
+            optionButtons[i].setText(currentOptions.get(i));
+            optionButtons[i].setEnabled(true);
+            optionButtons[i].setBackground(new Color(240, 240, 240));
+        }
+
+        questionCount++;
+        updateNavButtons();
+    }
+
+
+    private void prevQuestion() {
+        // In a real implementation, you would need to track previous questions and answers
+        // For now, we'll just go back to the start
+        resetQuiz();
+    }
+
+    private void loadFlagImage() {
         try {
             URL flagUrl = getClass().getResource(currentCountry.getFlag());
             if (flagUrl != null) {
@@ -138,96 +231,60 @@ public class QuizPanel extends BackgroundPanel {
                 flagLabel.setIcon(new ImageIcon(scaledFlag));
             } else {
                 flagLabel.setIcon(null);
-                System.err.println("Flag not found: " + currentCountry.getFlag());
             }
         } catch (Exception e) {
-            System.err.println("Error loading flag: " + e.getMessage());
             flagLabel.setIcon(null);
         }
-
-        // Set question based on level type
-        switch (levelType) {
-            case 1: // Flags
-                questionLabel.setText("Which country's flag is this?");
-                correctAnswer = currentCountry.getName();
-                break;
-            case 2: // Capitals
-                questionLabel.setText("What is the capital of " + currentCountry.getName() + "?");
-                correctAnswer = currentCountry.getCapital();
-                break;
-            case 3: // Currencies
-                questionLabel.setText("What currency is used in " + currentCountry.getName() + "?");
-                correctAnswer = currentCountry.getCurrency();
-                break;
-            case 4: // Languages
-                questionLabel.setText("What language is spoken in " + currentCountry.getName() + "?");
-                correctAnswer = currentCountry.getLanguage();
-                break;
-            case 5: // Mastery (random)
-                int randomType = new Random().nextInt(4) + 1;
-                this.levelType = randomType;
-                nextQuestion();
-                return;
-        }
-
-        // Generate options
-        List<String> options = generateOptions(correctAnswer);
-        for (int i = 0; i < 4 && i < options.size(); i++) {
-            optionButtons[i].setText(options.get(i));
-            optionButtons[i].setEnabled(true);
-            optionButtons[i].setBackground(null);
-            optionButtons[i].setVisible(true);
-        }
-
-        questionCount++;
-    }
-
-    private void showError(String noCountryDataAvailable) {
-        JOptionPane.showMessageDialog(this, noCountryDataAvailable, "Error", JOptionPane.ERROR_MESSAGE);
-        onBack.run(); // Navigate back if no data is available
-        quizCompleted = true; // Mark quiz as completed to prevent further questions
     }
 
     private List<String> generateOptions(String correctAnswer) {
         List<String> options = new ArrayList<>();
         List<Country> countryCopy = new ArrayList<>(countries);
+        countryCopy.remove(currentCountry);
         Collections.shuffle(countryCopy);
 
-        // Add 3 wrong answers
+        // Get 3 wrong answers
         for (Country country : countryCopy) {
+            if (options.size() >= 3) break;
+
             String answer = getAnswerForLevelType(country);
             if (answer != null && !answer.equals(correctAnswer) && !options.contains(answer)) {
                 options.add(answer);
-                if (options.size() >= 3) break;
             }
         }
 
-        // Add correct answer and shuffle
-        if (correctAnswer != null) {
-            options.add(correctAnswer);
-        } else {
-            options.add("Unknown");
+        // If still not enough options, use some fallbacks
+        while (options.size() < 3) {
+            options.add("Not " + correctAnswer); // Simple fallback
+            if (options.size() < 3) {
+                options.add("None of these");
+            }
         }
-        Collections.shuffle(options);
 
+        options.add(correctAnswer);
+        Collections.shuffle(options);
         return options;
     }
+
 
     private String getAnswerForLevelType(Country country) {
         if (country == null) return null;
 
         switch (levelType) {
-            case 1: return country.getName();
-            case 2: return country.getCapital();
-            case 3: return country.getCurrency();
-            case 4: return country.getLanguage();
-            default: return null;
+            case 1:
+                return country.getCountry();  // Use getCountry() instead of getName()
+            case 2:
+                return country.getCapital();
+            case 3:
+                return country.getCurrency();
+            case 4:
+                return country.getLanguage();
+            default:
+                return null;
         }
     }
 
     private void checkAnswer(Object source) {
-        if (quizCompleted) return;
-
         JButton selectedButton = (JButton) source;
         boolean isCorrect = selectedButton.getText().equals(correctAnswer);
 
@@ -254,26 +311,24 @@ public class QuizPanel extends BackgroundPanel {
         }
 
         scoreLabel.setText("Score: " + score + "/" + totalQuestions);
+        updateNavButtons();
+    }
 
-        // Next question after delay
-        Timer timer = new Timer(1500, e -> {
-            nextQuestion();
-            for (JButton button : optionButtons) {
-                button.setBackground(null);
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
+    private void updateNavButtons() {
+        prevButton.setEnabled(questionCount > 1);
+        nextButton.setEnabled(true);
     }
 
     private void showFinalScore() {
         quizCompleted = true;
 
-        // Update user progress if score >= 7
+        // Update progress and unlock next level if score >= 7
+        boolean levelUnlocked = false;
         if (score >= 7 && levelType < 5) {
-            gameController.updateUserProgress(levelType, score); // Update current level progress
-            if (levelType < 4) {
-                gameController.unlockLevel(levelType + 1); // Unlock next level
+            gameController.updateUserProgress(levelType, score);
+            if (!gameController.isLevelUnlocked(levelType + 1)) {
+                gameController.unlockLevel(levelType + 1);
+                levelUnlocked = true;
             }
         }
 
@@ -281,45 +336,36 @@ public class QuizPanel extends BackgroundPanel {
         questionLabel.setText("Quiz Completed!");
         flagLabel.setIcon(null);
 
-        String resultMessage;
+        String resultMessage = "Final Score: " + score + "/" + totalQuestions;
         if (score >= 7) {
-            resultMessage = "Congratulations! You passed with " + score + "/" + totalQuestions;
-            if (levelType < 4) {
+            if (levelUnlocked && levelType < 4) {
                 resultMessage += "\nLevel " + (levelType + 1) + " unlocked!";
             }
+            resultLabel.setForeground(Color.GREEN);
         } else {
-            resultMessage = "You scored " + score + "/" + totalQuestions + "\nTry again to unlock the next level!";
+            resultMessage += "\nNeed 7+ correct to unlock next level";
+            resultLabel.setForeground(Color.RED);
         }
 
         resultLabel.setText("<html><center>" + resultMessage + "</center></html>");
-        resultLabel.setForeground(score >= 7 ? Color.GREEN : Color.RED);
 
-        // Hide options
+        // Hide options and nav buttons
         for (JButton button : optionButtons) {
             button.setVisible(false);
         }
+        prevButton.setVisible(false);
+        nextButton.setVisible(false);
 
         // Add restart button
-        TextOverlayButton restartBtn = new TextOverlayButton("Play Again", "/images/button_bg.png");
-        restartBtn.addActionListener(e -> {
-            resetQuiz();
-            nextQuestion();
-        });
-
-        // Add back to menu button
-        TextOverlayButton menuBtn = new TextOverlayButton("Back to Menu", "/images/button_bg.png");
-        menuBtn.addActionListener(e -> onBack.run());
-
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(restartBtn);
-        buttonPanel.add(menuBtn);
+        JButton restartBtn = new JButton("Play Again");
+        restartBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
+        restartBtn.addActionListener(e -> resetQuiz());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.gridwidth = 2;
-        add(buttonPanel, gbc);
+        add(restartBtn, gbc);
 
         revalidate();
         repaint();
@@ -334,8 +380,26 @@ public class QuizPanel extends BackgroundPanel {
 
         for (JButton button : optionButtons) {
             button.setVisible(true);
-            button.setBackground(null);
+            button.setBackground(new Color(240, 240, 240));
             button.setEnabled(true);
         }
+
+        prevButton.setVisible(true);
+        nextButton.setVisible(true);
+
+        // Remove restart button
+        Component[] components = getComponents();
+        for (Component comp : components) {
+            if (comp instanceof JButton && ((JButton)comp).getText().equals("Play Again")) {
+                remove(comp);
+            }
+        }
+
+        nextQuestion();
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+        onBack.run();
     }
 }
