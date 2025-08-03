@@ -1,4 +1,3 @@
-// src/main/java/com/countryquiz/view/panel/WelcomePanel.java
 package com.countryquiz.view.panel;
 
 import com.countryquiz.view.components.*;
@@ -9,30 +8,23 @@ public class WelcomePanel extends BackgroundPanel {
     public WelcomePanel(Runnable onStartAction, Runnable toggleMusicAction) {
         super("/images/background.jpg");
 
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        // Disable layout manager for absolute positioning
+        setLayout(null);
 
-        // Title
-       /* JLabel title = new JLabel("");
-        title.setFont(new Font("Arial", Font.BOLD, 36));
-        title.setForeground(Color.WHITE);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(title, gbc);
-        */
+        // Create Start Button with explicit size
+        ImageButton startBtn = new ImageButton(
+                "/images/getstarted.png",
+                "/images/getstarted.png",
+                250, 100,
+                e -> onStartAction.run()
+        );
+        // Set exact position and size: x=275, y=350, width=250, height=100
+        startBtn.setBounds(280, 260, 250, 100);
+        add(startBtn);
 
-
-        // Start Button - Using TextOverlayButton with proper path
-        TextOverlayButton startBtn = new TextOverlayButton("", "/images/getstarted.png");
-        startBtn.addActionListener(e -> onStartAction.run());
-        gbc.gridy = 0;
-        gbc.gridwidth = 5;
-        add(startBtn, gbc);
-        // Music Toggle Button - Using MusicToggleButton instead of ImageButton
+        // Create Music Toggle Button and position it explicitly
         MusicToggleButton musicBtn = new MusicToggleButton(toggleMusicAction);
-        gbc.gridy = 2;
-        add(musicBtn, gbc);
+        musicBtn.setBounds(10, 10, 150, 40);  // Adjust size and position as needed
+        add(musicBtn);
     }
 }

@@ -17,7 +17,7 @@ public class LevelPanel extends BackgroundPanel {
         this.gameController = gameController;
         this.levelActions = levelActions;
         this.onBack = onBack;
-        setLayout(new GridBagLayout());
+        setLayout(null); // Absolute positioning
     }
 
     @Override
@@ -32,73 +32,78 @@ public class LevelPanel extends BackgroundPanel {
     private void initUI() {
         removeAll();
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 3;
-        gbc.anchor = GridBagConstraints.CENTER;
-
-        // Check if user is logged in
+        // User not logged in
         if (gameController.getCurrentUser() == null) {
             JLabel errorLabel = new JLabel("Please login first");
             errorLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
             errorLabel.setForeground(Color.WHITE);
-            add(errorLabel, gbc);
+            errorLabel.setBounds(270, 200, 300, 40);
+            add(errorLabel);
 
-            JButton loginButton = new TextOverlayButton("Go to Login", "/images/login.png");
-            loginButton.addActionListener(e -> onBack.run());
-            gbc.gridy = 1;
-            add(loginButton, gbc);
-
-            revalidate();
-            repaint();
+            ImageButton loginButton = new ImageButton(
+                    "/images/login.png",
+                    "/images/login.png",
+                    200, 70,
+                    e -> onBack.run()
+            );
+            loginButton.setBounds(290, 270, 200, 70);
+            add(loginButton);
             return;
         }
 
-        // User is logged in - show levels
+        // Title
         JLabel title = new JLabel("Select Level");
         title.setFont(new Font("Tahoma", Font.BOLD, 32));
         title.setForeground(Color.BLACK);
-        add(title, gbc);
+        title.setBounds(285, 8, 280, 280);
+        add(title);
 
+        // Level buttons (resizable)
         int highestUnlocked = gameController.getCurrentUser().getHighestLevelUnlocked();
         String[] levelNames = {"Flags", "Capitals", "Currencies", "Languages", "Mastery Quiz"};
+        int[][] buttonPositions = {
+                {100, 160}, {320, 160}, {540, 160}, {180, 340}, {400, 340}
+        };
 
-        gbc.gridwidth = 1;
-        gbc.gridy = 1;
+        int buttonWidth = 170;
+        int buttonHeight = 170;
 
         for (int i = 0; i < levelActions.length && i < 5; i++) {
-            gbc.gridx = i % 3;
-            if (i > 0 && i % 3 == 0) gbc.gridy++;
-
+            int x = buttonPositions[i][0];
+            int y = buttonPositions[i][1];
             int level = i + 1;
-            TextOverlayButton levelBtn = new TextOverlayButton(levelNames[i], "/images/level"+level+".png");
 
-            if (level <= highestUnlocked) {
-                int score = gameController.getCurrentUser().getLevelScore(level);
-                levelBtn.setText(levelNames[i] + " (" + score + "/10)");
-                final int levelIndex = i;
-                levelBtn.addActionListener(e -> {
-                    if (levelIndex < levelActions.length) {
-                        levelActions[levelIndex].run();
-                    }
-                });
-            } else {
-                levelBtn.setText("Locked");
+            String imagePath = "/images/level" + level + ".png";
+
+            int finalI = i;
+            ImageButton levelBtn = new ImageButton(
+                    imagePath,
+                    imagePath,
+                    buttonWidth,
+                    buttonHeight,
+                    e -> levelActions[finalI].run()
+            );
+
+            levelBtn.setBounds(x, y, buttonWidth, buttonHeight);
+
+            if (level > highestUnlocked) {
                 levelBtn.setEnabled(false);
             }
 
-            add(levelBtn, gbc);
+            add(levelBtn);
         }
 
-        // Back Button
-        gbc.gridx = 1;
-        gbc.gridy++;
+        // Back button
         BackButton backBtn = new BackButton(onBack);
-        add(backBtn, gbc);
+        backBtn.setBounds(350, 500, 50, 50);
+        add(backBtn);
 
         revalidate();
         repaint();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(800, 600); // fixed panel size
     }
 }

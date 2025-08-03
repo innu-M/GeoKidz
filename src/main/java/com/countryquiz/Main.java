@@ -2,6 +2,7 @@ package com.countryquiz;
 
 import com.countryquiz.controller.*;
 import com.countryquiz.view.panel.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -27,24 +28,12 @@ public class Main {
         audioController.playMusic();
     }
 
-    private void verifyResources() {
-        checkResourceExists("/images/button_bg.png");
-        checkResourceExists("/data/countries.json");
-    }
-
-    private void checkResourceExists(String path) {
-        if (getClass().getResource(path) == null) {
-            String msg = "Critical resource missing: " + path;
-            JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
-            throw new RuntimeException(msg);
-        }
-    }
-
     private void initializeFrame() {
         frame = new JFrame("Country Quiz");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setLocationRelativeTo(null);
+        frame.setResizable(false); // 🟡 Fixed-size window
+        frame.setLocationRelativeTo(null); // center on screen
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -100,7 +89,7 @@ public class Main {
                 this::showMenuPanel
         ));
 
-        // Add to main panel
+        // Add authenticated panels to main panel
         panels.forEach((name, panel) -> {
             if (!name.equals("welcome") && !name.equals("login") && !name.equals("register")) {
                 mainPanel.add(panel, name);
@@ -151,7 +140,6 @@ public class Main {
     // Navigation methods
     private void showWelcomePanel() {
         cardLayout.show(mainPanel, "welcome");
-        frame.setVisible(true);
     }
 
     private void showLoginPanel() {
@@ -196,7 +184,8 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                new Main();
+                Main app = new Main();
+                app.frame.setVisible(true); // 🔵 Show the window
             } catch (Exception e) {
                 e.printStackTrace();
             }

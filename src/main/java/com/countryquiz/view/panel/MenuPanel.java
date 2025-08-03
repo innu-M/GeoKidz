@@ -4,10 +4,9 @@ import com.countryquiz.controller.GameController;
 import com.countryquiz.controller.AudioController;
 import com.countryquiz.model.User;
 import com.countryquiz.view.components.*;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MenuPanel extends BackgroundPanel {
     private final GameController gameController;
@@ -24,6 +23,7 @@ public class MenuPanel extends BackgroundPanel {
     private TextOverlayButton aboutButton;
     private TextOverlayButton logoutButton;
     private BackButton backButton;
+    private ImageButton quizImageButton; // ✅ Added
 
     public MenuPanel(GameController gameController, Runnable onLevelSelect,
                      Runnable onLogout, AudioController audioController) {
@@ -51,11 +51,11 @@ public class MenuPanel extends BackgroundPanel {
         welcomeLabel.setForeground(Color.black);
 
         // Level Select Button
-        levelSelectButton = new TextOverlayButton("","/images/level.png");
+        levelSelectButton = new TextOverlayButton("", "/images/level.png");
         levelSelectButton.addActionListener(e -> onLevelSelect.run());
 
         // High Scores Button
-        scoresButton = new TextOverlayButton("","/images/score.png");
+        scoresButton = new TextOverlayButton("", "/images/score.png");
         scoresButton.addActionListener(e -> showHighScores());
 
         // Music Toggle Button
@@ -66,15 +66,26 @@ public class MenuPanel extends BackgroundPanel {
         updateMusicButtonText();
 
         // About Button
-        aboutButton = new TextOverlayButton("","/images/about.png");
+        aboutButton = new TextOverlayButton("", "/images/about.png");
         aboutButton.addActionListener(e -> showAboutDialog());
 
         // Logout Button
-        logoutButton = new TextOverlayButton("","/images/logout.png");
+        logoutButton = new TextOverlayButton("", "/images/logout.png");
         logoutButton.addActionListener(e -> {
             gameController.logout();
             onLogout.run();
         });
+
+        // ✅ Quiz ImageButton
+        quizImageButton = new ImageButton(
+                "/images/quiz.png",
+                "/images/quiz_hover.png",
+                200, 120,
+                e -> {
+                    System.out.println("Quiz ImageButton clicked!");
+                    onLevelSelect.run(); // Or custom logic
+                }
+        );
 
         // Back Button (top-left corner)
         backButton = new BackButton(() -> {
@@ -118,6 +129,9 @@ public class MenuPanel extends BackgroundPanel {
 
         gbc.gridy = 7;
         add(logoutButton, gbc);
+
+        gbc.gridy = 8;
+        add(quizImageButton, gbc); // ✅ Add ImageButton at the bottom
     }
 
     public void refreshUI() {
@@ -193,14 +207,4 @@ public class MenuPanel extends BackgroundPanel {
         JOptionPane.showMessageDialog(this, aboutText,
                 "About", JOptionPane.INFORMATION_MESSAGE);
     }
-
-    /*protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // Draw decorative elements
-        g.setColor(new Color(0, 0, 0, 150));
-        g.fillRoundRect(50, 50, getWidth() - 100, getHeight() - 100, 30, 30);
-    }
-
-     */
-
 }
