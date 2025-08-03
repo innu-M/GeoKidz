@@ -109,7 +109,7 @@ public class LearningPanel extends BackgroundPanel {
         if (countries.isEmpty()) return;
 
         Country country = countries.get(index);
-        countryLabel.setText("Country: " + country.getName());
+        countryLabel.setText("Country: " + country.getCountry());
         capitalLabel.setText("Capital: " + country.getCapital());
         languageLabel.setText("Language: " + country.getLanguage());
         currencyLabel.setText("Currency: " + country.getCurrency());
