@@ -15,11 +15,11 @@ public class WelcomePanel extends BackgroundPanel {
         ImageButton startBtn = new ImageButton(
                 "/images/getstarted.png",
                 "/images/getstarted.png",
-                250, 100,
+                220, 120,
                 e -> onStartAction.run()
         );
         // Set exact position and size: x=275, y=350, width=250, height=100
-        startBtn.setBounds(280, 260, 250, 100);
+        startBtn.setBounds(280, 240, 250, 200);
         add(startBtn);
 
         // Create Music Toggle Button and position it explicitly

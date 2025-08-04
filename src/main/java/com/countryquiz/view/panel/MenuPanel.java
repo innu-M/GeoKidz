@@ -14,7 +14,6 @@ public class MenuPanel extends BackgroundPanel {
     private final Runnable onLogout;
     private final AudioController audioController;
 
-    // UI Components
     private JLabel titleLabel;
     private JLabel welcomeLabel;
     private TextOverlayButton levelSelectButton;
@@ -23,7 +22,7 @@ public class MenuPanel extends BackgroundPanel {
     private TextOverlayButton aboutButton;
     private TextOverlayButton logoutButton;
     private BackButton backButton;
-    private ImageButton quizImageButton; // ✅ Added
+    private ImageButton quizImageButton;
 
     public MenuPanel(GameController gameController, Runnable onLevelSelect,
                      Runnable onLogout, AudioController audioController) {
@@ -33,105 +32,69 @@ public class MenuPanel extends BackgroundPanel {
         this.onLogout = onLogout;
         this.audioController = audioController;
 
-        setLayout(new GridBagLayout());
+        setLayout(null); // Absolute positioning
         initComponents();
-        setupLayout();
     }
 
     private void initComponents() {
-        // Title
-        titleLabel = new JLabel("");
+        titleLabel = new JLabel("Select Option");
         titleLabel.setFont(new Font("Tahoma", Font.BOLD, 36));
         titleLabel.setForeground(Color.BLACK);
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setBounds(250, 20, 400, 50);
+        add(titleLabel);
 
-        // Welcome message
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
         welcomeLabel.setForeground(Color.black);
+        welcomeLabel.setBounds(270, 80, 300, 30);
+        add(welcomeLabel);
 
-        // Level Select Button
         levelSelectButton = new TextOverlayButton("", "/images/level.png");
+        levelSelectButton.setBounds(300, 130, 200, 80);
         levelSelectButton.addActionListener(e -> onLevelSelect.run());
+        add(levelSelectButton);
 
-        // High Scores Button
         scoresButton = new TextOverlayButton("", "/images/score.png");
+        scoresButton.setBounds(300, 220, 200, 80);
         scoresButton.addActionListener(e -> showHighScores());
+        add(scoresButton);
 
-        // Music Toggle Button
         musicToggleButton = new MusicToggleButton(() -> {
             audioController.toggleMusic();
             updateMusicButtonText();
         });
         updateMusicButtonText();
+        musicToggleButton.setBounds(600, 58, 95, 38);
+        add(musicToggleButton);
 
-        // About Button
         aboutButton = new TextOverlayButton("", "/images/about.png");
+        aboutButton.setBounds(300, 360, 200, 80);
         aboutButton.addActionListener(e -> showAboutDialog());
+        add(aboutButton);
 
-        // Logout Button
         logoutButton = new TextOverlayButton("", "/images/logout.png");
+        logoutButton.setBounds(300, 450, 200, 80);
         logoutButton.addActionListener(e -> {
             gameController.logout();
             onLogout.run();
         });
+        add(logoutButton);
 
-        // ✅ Quiz ImageButton
         quizImageButton = new ImageButton(
                 "/images/quiz.png",
                 "/images/quiz_hover.png",
-                200, 120,
-                e -> {
-                    System.out.println("Quiz ImageButton clicked!");
-                    onLevelSelect.run(); // Or custom logic
-                }
+                180, 100,
+                e -> onLevelSelect.run()
         );
+        quizImageButton.setBounds(580, 450, 180, 100);
+        add(quizImageButton);
 
-        // Back Button (top-left corner)
         backButton = new BackButton(() -> {
             gameController.logout();
             onLogout.run();
         });
-    }
-
-    private void setupLayout() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        add(backButton, gbc);
-
-        // Title
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(titleLabel, gbc);
-
-        // Welcome message
-        gbc.gridy = 2;
-        add(welcomeLabel, gbc);
-
-        // Buttons
-        gbc.gridwidth = 1;
-        gbc.gridy = 3;
-        add(levelSelectButton, gbc);
-
-        gbc.gridy = 4;
-        add(scoresButton, gbc);
-
-        gbc.gridy = 5;
-        add(musicToggleButton, gbc);
-
-        gbc.gridy = 6;
-        add(aboutButton, gbc);
-
-        gbc.gridy = 7;
-        add(logoutButton, gbc);
-
-        gbc.gridy = 8;
-        add(quizImageButton, gbc); // ✅ Add ImageButton at the bottom
+        backButton.setBounds(20, 20, 190, 100);
+        add(backButton);
     }
 
     public void refreshUI() {
@@ -156,7 +119,7 @@ public class MenuPanel extends BackgroundPanel {
     }
 
     private void updateMusicButtonText() {
-        musicToggleButton.setText(audioController.isMusicEnabled() ? "🔊 Music ON" : "🔇 Music OFF");
+        musicToggleButton.setText(audioController.isMusicEnabled() ? "\uD83D\uDD0A Music ON" : "\uD83D\uDD07 Music OFF");
     }
 
     private void showHighScores() {
@@ -195,11 +158,11 @@ public class MenuPanel extends BackgroundPanel {
                 "<h1>Protasha's Country Quiz</h1>" +
                 "<p>Learn about countries through 5 exciting levels:</p>" +
                 "<ul>" +
-                "<li>🇺🇳 Flags</li>" +
-                "<li>🏙️ Capitals</li>" +
-                "<li>💰 Currencies</li>" +
-                "<li>🗣️ Languages</li>" +
-                "<li>🎯 Mastery Quiz</li>" +
+                "<li>\uD83C\uDDFA\uD83C\uDDF3 Flags</li>" +
+                "<li>\uD83C\uDFD9\uFE0F Capitals</li>" +
+                "<li>\uD83D\uDCB0 Currencies</li>" +
+                "<li>\uD83D\uDDE3\uFE0F Languages</li>" +
+                "<li>\uD83C\uDFC6 Mastery Quiz</li>" +
                 "</ul>" +
                 "<p>Score 7+ in each level to unlock the next!</p>" +
                 "</center></html>";

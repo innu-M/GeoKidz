@@ -25,7 +25,7 @@ public class BackButton extends JButton {
         }
 
         if (icon != null && icon.getImage() != null) {
-            Image scaledImage = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            Image scaledImage = icon.getImage().getScaledInstance(100, 70, Image.SCALE_SMOOTH);
             setIcon(new ImageIcon(scaledImage));
         } else {
             System.err.println("Back button image not found, using text fallback");

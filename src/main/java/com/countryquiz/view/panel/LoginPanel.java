@@ -14,64 +14,55 @@ public class LoginPanel extends BackgroundPanel {
     }
 
     private void initUI(Runnable onLogin, Runnable onRegister, Runnable onBack) {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        setLayout(null); // ✅ Absolute positioning
 
         // Back Button
         BackButton backBtn = new BackButton(onBack);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        add(backBtn, gbc);
+        backBtn.setBounds(20, 20, 190, 100); // x, y, width, height
+        add(backBtn);
 
-        // Title
-        JLabel title = new JLabel("");
-        title.setFont(new Font("Tahoma", Font.BOLD, 24));
-        title.setForeground(Color.WHITE);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(title, gbc);
+        // Title (optional)
+        JLabel title = new JLabel("Login");
+        title.setFont(new Font("Tahoma", Font.BOLD, 32));
+        title.setForeground(Color.black);
+        title.setBounds(350, 40, 200, 40);
+        add(title);
 
-        // Username Field
-        gbc.gridwidth = 1;
-        gbc.gridy = 2;
-        add(new JLabel("Username:"), gbc);
+        // Username Label and Field
+        JLabel userLabel = new JLabel("Username:");
+        userLabel.setForeground(Color.black);
+        userLabel.setBounds(250, 200, 100, 40);
+        add(userLabel);
 
-        gbc.gridx = 1;
-        usernameField = new JTextField(15);
-        add(usernameField, gbc);
+        usernameField = new JTextField();
+        usernameField.setBounds(320, 200, 200, 40);
+        add(usernameField);
 
-        // Password Field
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        add(new JLabel("Password:"), gbc);
+        // Password Label and Field
+        JLabel passLabel = new JLabel("Password:");
+        passLabel.setForeground(Color.black);
+        passLabel.setBounds(250, 260, 100, 40);
+        add(passLabel);
 
-        gbc.gridx = 1;
-        passwordField = new JPasswordField(15);
-        add(passwordField, gbc);
+        passwordField = new JPasswordField();
+        passwordField.setBounds(320, 260, 200, 40);
+        add(passwordField);
 
         // Login Button
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        TextOverlayButton loginBtn = new TextOverlayButton("","/images/login.png");
+        TextOverlayButton loginBtn = new TextOverlayButton("", "/images/login.png");
+        loginBtn.setBounds(170, 360, 150, 90); // ← Change x, y, width, height
         loginBtn.addActionListener(e -> {
             if (validateInput()) {
-                SwingUtilities.invokeLater(() -> {
-                    onLogin.run(); // Ensure this runs on EDT
-                });
+                SwingUtilities.invokeLater(onLogin);
             }
         });
-        add(loginBtn, gbc);
+        add(loginBtn);
 
         // Register Button
-        gbc.gridy = 5;
-        TextOverlayButton registerBtn = new TextOverlayButton("","/images/register.png");
+        TextOverlayButton registerBtn = new TextOverlayButton("", "/images/register.png");
+        registerBtn.setBounds(450, 360, 150, 90); // ← Adjust as needed
         registerBtn.addActionListener(e -> onRegister.run());
-        add(registerBtn, gbc);
+        add(registerBtn);
     }
 
     private boolean validateInput() {

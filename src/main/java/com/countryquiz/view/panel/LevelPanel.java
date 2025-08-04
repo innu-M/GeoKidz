@@ -43,10 +43,10 @@ public class LevelPanel extends BackgroundPanel {
             ImageButton loginButton = new ImageButton(
                     "/images/login.png",
                     "/images/login.png",
-                    200, 70,
+                    200, 120,
                     e -> onBack.run()
             );
-            loginButton.setBounds(290, 270, 200, 70);
+            loginButton.setBounds(290, 270, 200, 120);
             add(loginButton);
             return;
         }
