@@ -50,12 +50,12 @@ public class MenuPanel extends BackgroundPanel {
         add(welcomeLabel);
 
         levelSelectButton = new TextOverlayButton("", "/images/level.png");
-        levelSelectButton.setBounds(250, 160, 300, 210);
+        levelSelectButton.setBounds(250, 160, 300, 100);
         levelSelectButton.addActionListener(e -> onLevelSelect.run());
         add(levelSelectButton);
 
         scoresButton = new TextOverlayButton("", "/images/score.png");
-        scoresButton.setBounds(250, 250, 300, 210);
+        scoresButton.setBounds(250, 250, 300, 100);
         scoresButton.addActionListener(e -> showHighScores());
         add(scoresButton);
 
