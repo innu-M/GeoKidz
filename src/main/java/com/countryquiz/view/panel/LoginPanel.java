@@ -25,7 +25,7 @@ public class LoginPanel extends BackgroundPanel {
         JLabel title = new JLabel("Login");
         title.setFont(new Font("Tahoma", Font.BOLD, 32));
         title.setForeground(Color.black);
-        title.setBounds(350, 40, 200, 40);
+        title.setBounds(350, 100, 200, 40);
         add(title);
 
         // Username Label and Field
