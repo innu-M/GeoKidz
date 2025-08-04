@@ -19,7 +19,7 @@ public class TextOverlayButton extends JButton {
             if (icon.getImage() == null) {
                 throw new RuntimeException("Image not found: " + imagePath);
             }
-            setIcon(new ImageIcon(icon.getImage().getScaledInstance(150, 85, Image.SCALE_SMOOTH)));
+            setIcon(new ImageIcon(icon.getImage().getScaledInstance(150, 95, Image.SCALE_SMOOTH)));
         } catch (Exception e) {
             // Fallback to default button if image fails to load
             System.err.println("Error loading button image: " + e.getMessage());

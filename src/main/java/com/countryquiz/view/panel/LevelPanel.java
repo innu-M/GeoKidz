@@ -52,17 +52,17 @@ public class LevelPanel extends BackgroundPanel {
         }
 
         // Title
-        JLabel title = new JLabel("Select Level");
-        title.setFont(new Font("Tahoma", Font.BOLD, 32));
-        title.setForeground(Color.BLACK);
-        title.setBounds(285, 8, 280, 280);
-        add(title);
+//        JLabel title = new JLabel("Select Level");
+//        title.setFont(new Font("Tahoma", Font.BOLD, 32));
+//        title.setForeground(Color.BLACK);
+//        title.setBounds(285, 3, 280, 280);
+//        add(title);
 
         // Level buttons (resizable)
         int highestUnlocked = gameController.getCurrentUser().getHighestLevelUnlocked();
         String[] levelNames = {"Flags", "Capitals", "Currencies", "Languages", "Mastery Quiz"};
         int[][] buttonPositions = {
-                {100, 160}, {320, 160}, {540, 160}, {180, 340}, {400, 340}
+                {100, 100}, {320, 100}, {540, 100}, {180, 300}, {400, 300}
         };
 
         int buttonWidth = 170;
@@ -95,7 +95,7 @@ public class LevelPanel extends BackgroundPanel {
 
         // Back button
         BackButton backBtn = new BackButton(onBack);
-        backBtn.setBounds(350, 500, 50, 50);
+        backBtn.setBounds(280, 460, 200, 120);
         add(backBtn);
 
         revalidate();

@@ -37,25 +37,25 @@ public class MenuPanel extends BackgroundPanel {
     }
 
     private void initComponents() {
-        titleLabel = new JLabel("Select Option");
-        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 36));
-        titleLabel.setForeground(Color.BLACK);
-        titleLabel.setBounds(250, 20, 400, 50);
-        add(titleLabel);
+//        titleLabel = new JLabel("Select Option");
+//        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
+//        titleLabel.setForeground(Color.BLACK);
+//        titleLabel.setBounds(260, 90, 400, 50);
+//        add(titleLabel);
 
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
         welcomeLabel.setForeground(Color.black);
-        welcomeLabel.setBounds(270, 80, 300, 30);
+        welcomeLabel.setBounds(280, 160, 350, 30);
         add(welcomeLabel);
 
         levelSelectButton = new TextOverlayButton("", "/images/level.png");
-        levelSelectButton.setBounds(300, 130, 200, 80);
+        levelSelectButton.setBounds(250, 160, 300, 210);
         levelSelectButton.addActionListener(e -> onLevelSelect.run());
         add(levelSelectButton);
 
         scoresButton = new TextOverlayButton("", "/images/score.png");
-        scoresButton.setBounds(300, 220, 200, 80);
+        scoresButton.setBounds(250, 250, 300, 210);
         scoresButton.addActionListener(e -> showHighScores());
         add(scoresButton);
 
@@ -64,36 +64,36 @@ public class MenuPanel extends BackgroundPanel {
             updateMusicButtonText();
         });
         updateMusicButtonText();
-        musicToggleButton.setBounds(600, 58, 95, 38);
+        musicToggleButton.setBounds(645, 28, 100, 40);
         add(musicToggleButton);
 
         aboutButton = new TextOverlayButton("", "/images/about.png");
-        aboutButton.setBounds(300, 360, 200, 80);
+        aboutButton.setBounds(10, 5, 160, 220);
         aboutButton.addActionListener(e -> showAboutDialog());
         add(aboutButton);
 
         logoutButton = new TextOverlayButton("", "/images/logout.png");
-        logoutButton.setBounds(300, 450, 200, 80);
+        logoutButton.setBounds(520, 470, 200, 120);
         logoutButton.addActionListener(e -> {
             gameController.logout();
             onLogout.run();
         });
         add(logoutButton);
 
-        quizImageButton = new ImageButton(
-                "/images/quiz.png",
-                "/images/quiz_hover.png",
-                180, 100,
-                e -> onLevelSelect.run()
-        );
-        quizImageButton.setBounds(580, 450, 180, 100);
-        add(quizImageButton);
+//        quizImageButton = new ImageButton(
+//                "/images/quiz.png",
+//                "/images/quiz_hover.png",
+//                180, 100,
+//                e -> onLevelSelect.run()
+//        );
+//        quizImageButton.setBounds(580, 450, 180, 100);
+//        add(quizImageButton);
 
         backButton = new BackButton(() -> {
             gameController.logout();
             onLogout.run();
         });
-        backButton.setBounds(20, 20, 190, 100);
+        backButton.setBounds(28, 460, 200, 120);
         add(backButton);
     }
 
@@ -101,7 +101,7 @@ public class MenuPanel extends BackgroundPanel {
         if (gameController.isLoggedIn()) {
             try {
                 User user = gameController.getCurrentUser();
-                welcomeLabel.setText("Welcome, " + user.getUsername());
+                welcomeLabel.setText("WELCOME, " + user.getUsername());
                 welcomeLabel.setVisible(true);
             } catch (IllegalStateException e) {
                 showLoginError();
