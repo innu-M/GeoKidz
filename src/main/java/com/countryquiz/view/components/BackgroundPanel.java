@@ -1,19 +1,30 @@
 package com.countryquiz.view.components;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class BackgroundPanel extends JPanel {
-    private final Image background;
+    private BufferedImage backgroundImage;
 
     public BackgroundPanel(String imagePath) {
-        this.background = new ImageIcon(getClass().getResource(imagePath)).getImage();
-        setLayout(new BorderLayout());
+        System.out.println(getClass().getResource("/images/leaderboardbg.png"));
+
+        try {
+            backgroundImage = ImageIO.read(getClass().getResource(imagePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setOpaque(false);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 }

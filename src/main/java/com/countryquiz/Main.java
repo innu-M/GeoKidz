@@ -15,8 +15,6 @@ public class Main extends JPanel {
     private final GameController gameController;
     private final AudioController audioController;
     private final Map<String, JPanel> panels;
-    private LoginPanel loginPanel;
-    private RegisterPanel registerPanel;
 
     public Main() {
         gameController = new GameController();
@@ -47,14 +45,14 @@ public class Main extends JPanel {
                 audioController::toggleMusic
         ));
 
-        loginPanel = new LoginPanel(
+        LoginPanel loginPanel = new LoginPanel(
                 this::handleLogin,
                 this::showRegisterPanel,
                 this::showWelcomePanel
         );
         panels.put("login", loginPanel);
 
-        registerPanel = new RegisterPanel(
+        RegisterPanel registerPanel = new RegisterPanel(
                 this::handleRegister,
                 this::showLoginPanel,
                 audioController::toggleMusic
@@ -98,8 +96,8 @@ public class Main extends JPanel {
     }
 
     private void handleLogin() {
-        String username = loginPanel.getUsername();
-        String password = loginPanel.getPassword();
+        String username = LoginPanel.getUsername();
+        String password = LoginPanel.getPassword();
 
         if (gameController.login(username, password)) {
             SwingUtilities.invokeLater(() -> {
@@ -115,8 +113,8 @@ public class Main extends JPanel {
     }
 
     private void handleRegister() {
-        String username = registerPanel.getUsername();
-        String password = registerPanel.getPassword();
+        String username = RegisterPanel.getUsername();
+        String password = RegisterPanel.getPassword();
 
         if (gameController.register(username, password)) {
             JOptionPane.showMessageDialog(frame,
@@ -175,17 +173,6 @@ public class Main extends JPanel {
         cardLayout.show(mainPanel, panelName);
     }
 
-    private Runnable[] createLevelActions() {
-        Runnable[] actions = new Runnable[5];
-        for (int i = 0; i < 5; i++) {
-            final int level = i + 1;
-            actions[i] = () -> {
-                System.out.println("Executing action for Level " + level);
-                showQuizPanel(level);
-            };
-        }
-        return actions;
-    }
 
     public void showLevelPanel() {
         // Create fresh level actions

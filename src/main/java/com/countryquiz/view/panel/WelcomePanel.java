@@ -24,7 +24,7 @@ public class WelcomePanel extends BackgroundPanel {
 
         // Create Music Toggle Button and position it explicitly
         MusicToggleButton musicBtn = new MusicToggleButton(toggleMusicAction);
-        musicBtn.setBounds(10, 10, 150, 40);  // Adjust size and position as needed
+        musicBtn.setBounds(20, 20, 150, 40);  // Adjust size and position as needed
         add(musicBtn);
     }
 }

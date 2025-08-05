@@ -35,7 +35,7 @@ public class LevelPanel extends BackgroundPanel {
 
         // Create level buttons
         createLevelButtons();
-        createBackButton();
+
 
         revalidate();
         repaint();
@@ -77,11 +77,7 @@ public class LevelPanel extends BackgroundPanel {
                         System.out.println("Level " + level + " button clicked");
                         if (level <= highestUnlocked) {
                             System.out.println("Attempting to execute action for Level " + level);
-                            if (levelActions != null && actionIndex < levelActions.length) {
-                                levelActions[actionIndex].run();
-                            } else {
-                                System.err.println("No action found for Level " + level);
-                            }
+                            levelActions[actionIndex].run();
                         }
                     }
             );
@@ -96,20 +92,13 @@ public class LevelPanel extends BackgroundPanel {
             System.out.println("Back button clicked - executing action");
             onBack.run();
         });
-        backBtn.setBounds(280, 460, 200, 120);
+        backBtn.setBounds(280, 480, 200, 120);
         add(backBtn);
 
         revalidate();
         repaint();
     }
-    private void createBackButton() {
-        BackButton backBtn = new BackButton(() -> {
-            System.out.println("Back button clicked in LevelPanel");
-            onBack.run(); // This should call Main's showMenuPanel()
-        });
-        backBtn.setBounds(280, 460, 200, 120);
-        add(backBtn);
-    }
+
 
     public void refreshLevels() {
         initUI();

@@ -4,8 +4,11 @@ import com.countryquiz.controller.GameController;
 import com.countryquiz.controller.AudioController;
 import com.countryquiz.model.User;
 import com.countryquiz.view.components.*;
+import com.countryquiz.view.panel.LeaderboardPanel;
+import com.countryquiz.view.components.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class MenuPanel extends BackgroundPanel {
@@ -14,7 +17,7 @@ public class MenuPanel extends BackgroundPanel {
     private final Runnable onLogout;
     private final AudioController audioController;
 
-    private JLabel titleLabel;
+
     private JLabel welcomeLabel;
     private TextOverlayButton levelSelectButton;
     private TextOverlayButton scoresButton;
@@ -23,6 +26,7 @@ public class MenuPanel extends BackgroundPanel {
     private TextOverlayButton logoutButton;
     private BackButton backButton;
     private ImageButton quizImageButton;
+    private TextOverlayButton leaderboardButton;
 
     public MenuPanel(GameController gameController, Runnable onLevelSelect,
                      Runnable onLogout, AudioController audioController) {
@@ -37,16 +41,10 @@ public class MenuPanel extends BackgroundPanel {
     }
 
     private void initComponents() {
-//        titleLabel = new JLabel("Select Option");
-//        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
-//        titleLabel.setForeground(Color.BLACK);
-//        titleLabel.setBounds(260, 90, 400, 50);
-//        add(titleLabel);
-
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
         welcomeLabel.setForeground(Color.black);
-        welcomeLabel.setBounds(280, 160, 350, 30);
+        welcomeLabel.setBounds(280, 150, 350, 30);
         add(welcomeLabel);
 
         levelSelectButton = new TextOverlayButton("", "/images/level.png");
@@ -56,8 +54,16 @@ public class MenuPanel extends BackgroundPanel {
 
         scoresButton = new TextOverlayButton("", "/images/score.png");
         scoresButton.setBounds(250, 250, 300, 100);
-        scoresButton.addActionListener(e -> showHighScores());
+        scoresButton.addActionListener(e -> {
+            audioController.playSoundEffect("click");
+            showHighScores();
+        });
         add(scoresButton);
+        // Add Leaderboard Button after High Scores
+        leaderboardButton = new TextOverlayButton("", "/images/leaderboard.png");
+        leaderboardButton.setBounds(250, 340, 300, 100); // Positioned below scores button
+        leaderboardButton.addActionListener(e -> showLeaderboard());
+        add(leaderboardButton);
 
         musicToggleButton = new MusicToggleButton(() -> {
             audioController.toggleMusic();
@@ -74,20 +80,13 @@ public class MenuPanel extends BackgroundPanel {
 
         logoutButton = new TextOverlayButton("", "/images/logout.png");
         logoutButton.setBounds(520, 470, 200, 120);
+
         logoutButton.addActionListener(e -> {
             gameController.logout();
             onLogout.run();
+            refreshUI(); // Ensure UI updates
         });
         add(logoutButton);
-
-//        quizImageButton = new ImageButton(
-//                "/images/quiz.png",
-//                "/images/quiz_hover.png",
-//                180, 100,
-//                e -> onLevelSelect.run()
-//        );
-//        quizImageButton.setBounds(580, 450, 180, 100);
-//        add(quizImageButton);
 
         backButton = new BackButton(() -> {
             gameController.logout();
@@ -97,6 +96,64 @@ public class MenuPanel extends BackgroundPanel {
         add(backButton);
     }
 
+    private void showLeaderboard() {
+        // Create a dialog to display the leaderboard
+        JDialog leaderboardDialog = new JDialog();
+        leaderboardDialog.setTitle("Leaderboard");
+        leaderboardDialog.setSize(700, 500);
+        leaderboardDialog.setLocationRelativeTo(this);
+        leaderboardDialog.setModal(true);
+        leaderboardDialog.setLayout(new BorderLayout());
+
+        // Create table with user data
+        JTable table = new JTable();
+        String[] columns = {"Rank", "Username", "Total Score", "Flags", "Capitals", "Currencies", "Languages"};
+        DefaultTableModel model = new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make table non-editable
+            }
+        };
+
+        // Get and sort users by total score
+        java.util.List<User> users = gameController.getUserDatabase().getAllUsers();
+        users.sort((u1, u2) -> {
+            int total1 = u1.getLevelScore(1) + u1.getLevelScore(2) + u1.getLevelScore(3) + u1.getLevelScore(4);
+            int total2 = u2.getLevelScore(1) + u2.getLevelScore(2) + u2.getLevelScore(3) + u2.getLevelScore(4);
+            return Integer.compare(total2, total1); // Descending order
+        });
+
+        // Populate table
+        int rank = 1;
+        for (User user : users) {
+            model.addRow(new Object[]{
+                    rank++,
+                    user.getUsername(),
+                    user.getLevelScore(1) + user.getLevelScore(2) + user.getLevelScore(3) + user.getLevelScore(4),
+                    user.getLevelScore(1) + "/10",
+                    user.getLevelScore(2) + "/10",
+                    user.getLevelScore(3) + "/10",
+                    user.getLevelScore(4) + "/10"
+            });
+        }
+
+        // Configure table appearance
+        table.setModel(model);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        table.setRowHeight(25);
+        table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 14));
+
+        // Add close button
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(e -> leaderboardDialog.dispose());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(closeButton);
+
+        // Add components to dialog
+        leaderboardDialog.add(new JScrollPane(table), BorderLayout.CENTER);
+        leaderboardDialog.add(buttonPanel, BorderLayout.SOUTH);
+        leaderboardDialog.setVisible(true);
+    }
     public void refreshUI() {
         if (gameController.isLoggedIn()) {
             try {
@@ -115,7 +172,7 @@ public class MenuPanel extends BackgroundPanel {
 
     private void showLoginError() {
         welcomeLabel.setText("Please login first");
-        welcomeLabel.setForeground(Color.RED);
+        welcomeLabel.setForeground(Color.BLACK);
     }
 
     private void updateMusicButtonText() {
@@ -127,26 +184,22 @@ public class MenuPanel extends BackgroundPanel {
             User user = gameController.getCurrentUser();
             StringBuilder scores = new StringBuilder("<html><h2>Your Scores</h2><table>");
 
-            for (int i = 1; i <= 5; i++) {
+            // Only show levels 1-4
+            for (int i = 1; i <= 4; i++) {
                 scores.append("<tr><td>Level ").append(i).append(":</td>")
                         .append("<td>").append(user.getLevelScore(i)).append("/10</td></tr>");
             }
-            scores.append("</table>");
 
-            if (user.getHighestLevelUnlocked() < 5) {
-                scores.append("<p>Unlock next level by scoring 7+ in Level ")
-                        .append(user.getHighestLevelUnlocked()).append("</p>");
+            // Add mastery status
+            if (user.getHighestLevelUnlocked() >= 5) {
+                scores.append("<tr><td>Mastery:</td><td>Unlocked</td></tr>");
             }
 
-            scores.append("</html>");
+            scores.append("</table></html>");
 
             JOptionPane.showMessageDialog(this, scores.toString(),
                     "High Scores", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IllegalStateException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Please login to view scores",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                     "Error loading scores: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);

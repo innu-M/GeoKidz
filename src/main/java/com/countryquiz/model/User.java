@@ -6,15 +6,14 @@ import java.util.Objects;
 public class User {
     private final String username;
     private final String password;
-    private int[] levelScores=new int[4];
+    private final int[] levelScores=new int[4];
     private int highestLevelUnlocked=1;
-    private boolean[]levelUnlocked = new boolean[4];
-
 
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        boolean[] levelUnlocked = new boolean[4];
         levelUnlocked[0] = true; // Level 1 always unlocked
     }
 
