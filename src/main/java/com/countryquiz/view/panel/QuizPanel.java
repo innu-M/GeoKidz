@@ -88,21 +88,11 @@ public class QuizPanel extends BackgroundPanel {
         flagLabel = new JLabel();
         flagLabel.setBounds(300, 85, 200, 120);
         add(flagLabel);
-
         questionLabel = new JLabel();
         questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         questionLabel.setBounds(100, 240, 600, 40);
         add(questionLabel);
-
-
-//        // Question
-        questionLabel = new JLabel();
-        questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-        questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        questionLabel.setBounds(100, 240, 600, 40);
-        add(questionLabel);
-
 
 
         //option alignment
@@ -183,21 +173,41 @@ public class QuizPanel extends BackgroundPanel {
 
         switch (getCurrentQuestionType()) {
             case 1: // Flag
+                questionLabel = new JLabel();
+                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+                questionLabel.setBounds(260, 215, 600, 40);
+                add(questionLabel);
                 questionLabel.setText("Which country's flag is this?");
                 correctAnswer = currentCountry.getCountry();
                 loadFlagImage();
                 break;
             case 2: // Capital
+                questionLabel = new JLabel();
+                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+
+                questionLabel.setBounds(250, 195, 600, 40);
+                add(questionLabel);
                 questionLabel.setText(String.format("What is the capital of %s?", currentCountry.getCountry()));
                 correctAnswer = currentCountry.getCapital();
                 flagLabel.setIcon(null);
                 break;
             case 3: // Currency
+                questionLabel = new JLabel();
+                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+
+                questionLabel.setBounds(250, 195, 600, 40);
+                add(questionLabel);
                 questionLabel.setText(String.format("What currency is used in %s?", currentCountry.getCountry()));
                 correctAnswer = currentCountry.getCurrency();
                 flagLabel.setIcon(null);
                 break;
             case 4: // Language
+                questionLabel = new JLabel();
+                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+
+                questionLabel.setBounds(240, 195, 600, 40);
+                add(questionLabel);
+
                 questionLabel.setText(String.format("What language is spoken in %s?", currentCountry.getCountry()));
                 correctAnswer = currentCountry.getLanguage();
                 flagLabel.setIcon(null);
@@ -244,16 +254,19 @@ public class QuizPanel extends BackgroundPanel {
                     loadFlagImage();
                     break;
                 case 2:
+
                     questionLabel.setText(String.format("What is the capital of %s?", currentCountry.getCountry()));
                     correctAnswer = currentCountry.getCapital();
                     flagLabel.setIcon(null);
                     break;
                 case 3:
+
                     questionLabel.setText(String.format("What currency is used in %s?", currentCountry.getCountry()));
                     correctAnswer = currentCountry.getCurrency();
                     flagLabel.setIcon(null);
                     break;
                 case 4:
+
                     questionLabel.setText(String.format("What language is spoken in %s?", currentCountry.getCountry()));
                     correctAnswer = currentCountry.getLanguage();
                     flagLabel.setIcon(null);
