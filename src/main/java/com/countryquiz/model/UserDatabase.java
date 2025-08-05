@@ -5,13 +5,19 @@ import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 public class UserDatabase {
     private static final String DB_FILE = "users.txt"; // File outside src
-    private List<User> users;
 
+    private static List<User> users = new ArrayList<>();
+    private Gson gson = new Gson();
+
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users);
+    }
     public UserDatabase() {
         this.users = loadUsers();
     }
@@ -75,4 +81,11 @@ public class UserDatabase {
         }
         return false;
     }
+    public static List<User> getLeaderboardData() {
+        List<User> sortedUsers = new ArrayList<>(users);
+        // Sort by total score by default
+        sortedUsers.sort(Comparator.comparingInt(User::getTotalScore).reversed());
+        return sortedUsers;
+    }
+
 }

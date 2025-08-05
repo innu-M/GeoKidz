@@ -11,7 +11,7 @@ public class RegisterPanel extends BackgroundPanel {
 
     public RegisterPanel(Runnable onRegister, Runnable onBack, Runnable toggleMusic) {
         super("/images/allbg.png");
-        setLayout(null); // ❗ Use absolute positioning
+        setLayout(null);
         initUI(onRegister, onBack, toggleMusic);
     }
 

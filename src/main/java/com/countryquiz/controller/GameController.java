@@ -1,6 +1,7 @@
 package com.countryquiz.controller;
 
 import com.countryquiz.model.*;
+import com.countryquiz.view.panel.LeaderboardPanel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,10 +20,8 @@ public class GameController {
     public GameController() {
         this.userDatabase = new UserDatabase();
         this.countries = loadCountries();
-
-        // For testing purposes, create a default user
-        userDatabase.register(new User("test", "test"));
     }
+
     private List<Country> loadCountries() {
         try (InputStream is = getClass().getResourceAsStream("/data/countries.json");
              InputStreamReader reader = new InputStreamReader(is)) {
@@ -81,17 +80,41 @@ public class GameController {
         return isLoggedIn;
     }
 
-    public void updateUserProgress(int level, int score) {
+    public synchronized void updateLevelProgress(int level, int score) {
         if (currentUser == null) return;
-        try {
-            currentUser.setLevelScore(level, score);
-            if (level == currentUser.getHighestLevelUnlocked() && level < 5) {
-                currentUser.setHighestLevelUnlocked(level + 1);
+
+        // Update the score for this level
+        currentUser.setLevelScore(level, score);
+
+        // Unlock next level if score >=7 and not already unlocked
+        if (score >= 7 && level < 5) {
+            int nextLevel = level + 1;
+            if (nextLevel > currentUser.getHighestLevelUnlocked()) {
+                currentUser.setHighestLevelUnlocked(nextLevel);
+                System.out.println("Unlocked level " + nextLevel + " for user " + currentUser.getUsername());
             }
-            userDatabase.updateUser(currentUser);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Progress update error: " + e.getMessage());
         }
+
+        // Save to database
+        userDatabase.updateUser(currentUser);
+
+        // Debug output
+        System.out.println("Updated level " + level + " with score " + score +
+                ". Highest unlocked: " + currentUser.getHighestLevelUnlocked());
+    }
+    public synchronized void updateUserProgress(int level, int score) {
+        if (currentUser == null) {
+            System.err.println("Cannot update progress - no user logged in");
+            return;
+        }
+
+        System.out.println("Updating level " + level + " with score " + score);
+        currentUser.setLevelScore(level, score);
+        userDatabase.updateUser(currentUser);
+
+        // Debug output
+        System.out.println("Updated level " + level + " with score " + score +
+                ". Highest unlocked: " + currentUser.getHighestLevelUnlocked());
     }
 
     public synchronized User getCurrentUser() {
@@ -116,17 +139,17 @@ public class GameController {
             userDatabase.updateUser(currentUser);
         }
     }
-
-    public boolean isLevelUnlocked(int i) {
+    public boolean isLevelUnlocked(int level) {
+        System.out.println("Checking if level " + level + " is unlocked...");
         if (currentUser == null) {
-            throw new IllegalStateException("No user is currently logged in");
+            System.out.println("No user - only level 1 available");
+            return level == 1;
         }
-        if (i < 1 || i > 5) {
-            throw new IllegalArgumentException("Level must be between 1 and 5");
-        }
-        return i <= currentUser.getHighestLevelUnlocked();
-
+        boolean unlocked = level <= currentUser.getHighestLevelUnlocked();
+        System.out.println("Level " + level + " unlocked: " + unlocked);
+        return unlocked;
     }
+
     public List<Country> getCountriesForQuiz(int levelType) {
         List<Country> filtered = new ArrayList<>(countries);
 
@@ -157,4 +180,12 @@ public class GameController {
         System.out.println("Returning " + validCountries.size() + " valid countries for level " + levelType);
         return validCountries;
     }
+
+    public LeaderboardPanel getLeaderboardPanel() {
+        return new LeaderboardPanel(this); // Pass the controller instead of just userDatabase
+    }
+    public UserDatabase getUserDatabase() {
+        return this.userDatabase;
+    }
+
 }

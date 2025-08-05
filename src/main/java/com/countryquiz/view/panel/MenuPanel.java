@@ -46,7 +46,7 @@ public class MenuPanel extends BackgroundPanel {
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
         welcomeLabel.setForeground(Color.black);
-        welcomeLabel.setBounds(280, 130, 350, 30);
+        welcomeLabel.setBounds(280, 160, 350, 30);
         add(welcomeLabel);
 
         levelSelectButton = new TextOverlayButton("", "/images/level.png");

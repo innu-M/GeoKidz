@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Main {
+public class Main extends JPanel {
     private JFrame frame;
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -158,28 +158,54 @@ public class Main {
         cardLayout.show(mainPanel, "menu");
     }
 
-    private void showLevelPanel() {
-        if (gameController.isLoggedIn()) {
-            cardLayout.show(mainPanel, "levels");
-        } else {
-            showLoginPanel();
-        }
-    }
 
-    private void showQuizPanel(int levelType) {
-        String panelName = "quiz" + levelType;
+    private void showQuizPanel(int level) {
+        String panelName = "quiz" + level;
+
         if (!panels.containsKey(panelName)) {
             panels.put(panelName, new QuizPanel(
                     gameController,
-                    this::showLevelPanel,
+                    this::showLevelPanel, // Properly connected back action
                     audioController,
-                    levelType
+                    level
             ));
             mainPanel.add(panels.get(panelName), panelName);
         }
+
         cardLayout.show(mainPanel, panelName);
     }
 
+    private Runnable[] createLevelActions() {
+        Runnable[] actions = new Runnable[5];
+        for (int i = 0; i < 5; i++) {
+            final int level = i + 1;
+            actions[i] = () -> {
+                System.out.println("Executing action for Level " + level);
+                showQuizPanel(level);
+            };
+        }
+        return actions;
+    }
+
+    public void showLevelPanel() {
+        // Create fresh level actions
+        Runnable[] levelActions = new Runnable[5];
+        for (int i = 0; i < 5; i++) {
+            final int level = i + 1;
+            levelActions[i] = () -> showQuizPanel(level);
+        }
+
+        // Create or update the level panel
+        LevelPanel levelPanel = new LevelPanel(gameController, levelActions, this::showMenuPanel);
+        panels.put("levels", levelPanel);
+        mainPanel.add(levelPanel, "levels");
+
+        // Show the panel
+        cardLayout.show(mainPanel, "levels");
+
+        // Refresh the panel
+        levelPanel.refreshLevels();
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
