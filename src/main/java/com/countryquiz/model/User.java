@@ -1,24 +1,21 @@
 package com.countryquiz.model;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class User {
     private final String username;
     private final String password;
-    private int[] levelScores;
-    private int highestLevelUnlocked;
+    private int[] levelScores=new int[4];
+    private int highestLevelUnlocked=1;
+    private boolean[]levelUnlocked = new boolean[4];
+
+
 
     public User(String username, String password) {
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be empty");
-        }
-        if (password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Password cannot be empty");
-        }
         this.username = username;
         this.password = password;
-        this.levelScores = new int[5]; // For 5 levels
-        this.highestLevelUnlocked = 1; // Start with level 1 unlocked
+        levelUnlocked[0] = true; // Level 1 always unlocked
     }
 
     // Getters
@@ -30,33 +27,53 @@ public class User {
         return password;
     }
 
+    public void setLevelScore(int level, int score) {
+        if (level < 1 || level > 4) return;
+
+        levelScores[level-1] = score;
+
+        // Unlock next level if score >=7
+        if (score >= 7 && level == highestLevelUnlocked && level < 4) {
+            highestLevelUnlocked = level + 1;
+        }
+
+        // Unlock mastery if all levels completed with >=7
+        if (level == 4 && score >= 7 && checkAllLevelsCompleted()) {
+            highestLevelUnlocked = 5;
+        }
+    }
     public int getLevelScore(int level) {
-        validateLevel(level);
+        // Change from level-1 to proper bounds checking
+        if (level < 1 || level > 5) return 0;
+        if (level == 5) return 0; // Mastery level has no score
+
+        // For levels 1-4
         return levelScores[level-1];
     }
-
-    public void setLevelScore(int level, int score) {
-        validateLevel(level);
-        if (score < 0 || score > 10) {
-            throw new IllegalArgumentException("Score must be between 0 and 10");
+    private boolean checkAllLevelsCompleted() {
+        for (int i = 0; i < 4; i++) {
+            if (levelScores[i] < 7) {
+                return false;
+            }
         }
-        levelScores[level-1] = score;
+        return true;
     }
+
+
+
+
 
     public int getHighestLevelUnlocked() {
         return highestLevelUnlocked;
     }
-
     public void setHighestLevelUnlocked(int level) {
-        validateLevel(level);
-        this.highestLevelUnlocked = level;
-    }
-
-    private void validateLevel(int level) {
-        if (level < 1 || level > 5) {
-            throw new IllegalArgumentException("Level must be between 1 and 5");
+        System.out.println("Setting highest unlocked level to: " + level);
+        if (level > highestLevelUnlocked && level <= 5) {
+            this.highestLevelUnlocked = level;
+            System.out.println("New highest level: " + highestLevelUnlocked);
         }
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -69,5 +86,10 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(username);
+    }
+
+
+    public int getTotalScore() {
+        return Arrays.stream(levelScores).sum();
     }
 }

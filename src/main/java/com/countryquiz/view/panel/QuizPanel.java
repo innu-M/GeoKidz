@@ -1,5 +1,6 @@
 package com.countryquiz.view.panel;
 
+import com.countryquiz.Main;
 import com.countryquiz.controller.GameController;
 import com.countryquiz.controller.AudioController;
 import com.countryquiz.model.Country;
@@ -26,6 +27,7 @@ public class QuizPanel extends BackgroundPanel {
     private boolean quizCompleted = false;
     private List<String> currentOptions = new ArrayList<>();
 
+
     private JLabel questionLabel;
     private JLabel scoreLabel;
     private JButton[] optionButtons;
@@ -33,6 +35,7 @@ public class QuizPanel extends BackgroundPanel {
     private JLabel flagLabel;
     private JButton nextButton;
     private JButton prevButton;
+    private final Runnable onReturnToLevelSelection;
 
     public QuizPanel(GameController gameController, Runnable onBack, AudioController audioController, int levelType) {
         super("/images/allbg.png");
@@ -40,6 +43,18 @@ public class QuizPanel extends BackgroundPanel {
         this.onBack = onBack;
         this.audioController = audioController;
         this.levelType = levelType;
+        this.onReturnToLevelSelection = () -> {
+            Window window = SwingUtilities.getWindowAncestor(this);
+            if (window instanceof JFrame) {
+                Container parent = this.getParent();
+                while (parent != null && !(parent instanceof Main)) {
+                    parent = parent.getParent();
+                }
+                if (parent instanceof Main) {
+                    ((Main) parent).showLevelPanel();
+                }
+            }
+        };
         this.countries=gameController.getValidCountriesForQuiz(levelType);
         System.out.println("Countries count: " + countries.size());
         countries.forEach(c -> System.out.println(c.getCountry()));
@@ -51,26 +66,7 @@ public class QuizPanel extends BackgroundPanel {
         initUI();
         nextQuestion();
     }
-    /*private void validateCountryData() {
-        Iterator<Country> iterator = countries.iterator();
-        while (iterator.hasNext()) {
-            Country country = iterator.next();
-            if (country.getName() == null ||
-                    (levelType == 2 && country.getCapital() == null) ||
-                    (levelType == 3 && country.getCurrency() == null) ||
-                    (levelType == 4 && country.getLanguage() == null)) {
-                iterator.remove();
-            }
-        }
-        System.out.println("Valid countries count: " + countries.size());
 
-
-        if (countries.size() < 4) {
-            showError("Not enough valid countries for quiz");
-        }
-    }
-
-     */
 
     private void initUI() {
         setLayout(new GridBagLayout());
@@ -320,56 +316,29 @@ public class QuizPanel extends BackgroundPanel {
     }
 
     private void showFinalScore() {
-        quizCompleted = true;
-
-        // Update progress and unlock next level if score >= 7
-        boolean levelUnlocked = false;
-        if (score >= 7 && levelType < 5) {
-            gameController.updateUserProgress(levelType, score);
-            if (!gameController.isLevelUnlocked(levelType + 1)) {
-                gameController.unlockLevel(levelType + 1);
-                levelUnlocked = true;
-            }
+        // Update progress - only for levels 1-4
+        if (levelType >= 1 && levelType <= 4) {
+            gameController.updateLevelProgress(levelType, score);
         }
 
-        // Show results
-        questionLabel.setText("Quiz Completed!");
-        flagLabel.setIcon(null);
-
-        String resultMessage = "Final Score: " + score + "/" + totalQuestions;
+        // Show results in a dialog
+        String message = "Your score: " + score + "/10\n";
         if (score >= 7) {
-            if (levelUnlocked && levelType < 4) {
-                resultMessage += "\nLevel " + (levelType + 1) + " unlocked!";
+            if (levelType < 4) {
+                message += "Level " + (levelType + 1) + " unlocked!";
+            } else if (levelType == 4) {
+                message += "Mastery Level unlocked!";
             }
-            resultLabel.setForeground(Color.GREEN);
         } else {
-            resultMessage += "\nNeed 7+ correct to unlock next level";
-            resultLabel.setForeground(Color.RED);
+            message += "Score 7+ needed to unlock next level";
         }
 
-        resultLabel.setText("<html><center>" + resultMessage + "</center></html>");
+        JOptionPane.showMessageDialog(this, message, "Quiz Complete", JOptionPane.INFORMATION_MESSAGE);
 
-        // Hide options and nav buttons
-        for (JButton button : optionButtons) {
-            button.setVisible(false);
-        }
-        prevButton.setVisible(false);
-        nextButton.setVisible(false);
-
-        // Add restart button
-        JButton restartBtn = new JButton("Play Again");
-        restartBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
-        restartBtn.addActionListener(e -> resetQuiz());
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
-        add(restartBtn, gbc);
-
-        revalidate();
-        repaint();
+        // Return to level selection which will now show the unlocked levels
+        returnToLevelSelection();
     }
+
 
     private void resetQuiz() {
         quizCompleted = false;
@@ -396,6 +365,18 @@ public class QuizPanel extends BackgroundPanel {
         }
 
         nextQuestion();
+    }
+    private void returnToLevelSelection() {
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window instanceof JFrame) {
+            Container parent = this.getParent();
+            while (parent != null && !(parent instanceof Main)) {
+                parent = parent.getParent();
+            }
+            if (parent instanceof Main) {
+                ((Main) parent).showLevelPanel();
+            }
+        }
     }
 
     private void showError(String message) {

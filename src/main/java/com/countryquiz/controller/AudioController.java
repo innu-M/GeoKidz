@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public class AudioController {
     private Clip backgroundMusic;
-    private final Map<String, Clip> soundEffects = new HashMap<>();
+    private static final Map<String, Clip> soundEffects = new HashMap<>();
     private boolean musicEnabled = true;
-    private boolean soundEffectsEnabled = true;
+    private static boolean soundEffectsEnabled = true;
     private float volume = 0.7f;
 
     public AudioController() {
@@ -83,14 +83,20 @@ public class AudioController {
         }
     }
 
-    public void playSoundEffect(String effectName) {
-        if (soundEffectsEnabled && soundEffects.containsKey(effectName)) {
-            Clip clip = soundEffects.get(effectName);
-            clip.setFramePosition(0);
-            clip.start();
+    public static void playSoundEffect(String effectName) {
+        try {
+            if (soundEffectsEnabled && soundEffects.containsKey(effectName)) {
+                Clip clip = soundEffects.get(effectName);
+                if (clip != null) {
+                    clip.setFramePosition(0);
+                    clip.start();
+                    System.out.println("Played: " + effectName);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error playing " + effectName + ": " + e.getMessage());
         }
     }
-
     public void toggleMusic() {
         musicEnabled = !musicEnabled;
         if (musicEnabled) {
