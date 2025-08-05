@@ -11,7 +11,7 @@ import java.util.List;
 public class LeaderboardPanel extends JPanel {
     private JTable leaderboardTable;
     private JComboBox<String> sortCombo;
-    private GameController gameController;
+    private final GameController gameController;
 
     public LeaderboardPanel(GameController gameController) {
         this.gameController = gameController;
@@ -23,7 +23,7 @@ public class LeaderboardPanel extends JPanel {
         // Sort options panel
         String[] sortOptions = {"Total Score", "Name", "Flags", "Capitals", "Currencies", "Languages"};
         sortCombo = new JComboBox<>(sortOptions);
-        sortCombo.addActionListener(e -> updateLeaderboard());
+
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(new JLabel("Sort by:"));
@@ -63,6 +63,8 @@ public class LeaderboardPanel extends JPanel {
                 break;
             case "Languages":
                 users.sort((u1, u2) -> Integer.compare(u2.getLevelScore(4), u1.getLevelScore(4)));
+                break;
+            case null:
                 break;
             default: // Total Score
                 users.sort((u1, u2) -> Integer.compare(

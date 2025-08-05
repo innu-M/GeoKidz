@@ -3,10 +3,10 @@ package com.countryquiz.view.panel;
 import com.countryquiz.controller.GameController;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+
 
 public class LevelSelectionPanel extends JPanel {
-    private GameController gameController;
+    private final GameController gameController;
 
     public LevelSelectionPanel(GameController gameController) {
         this.gameController = gameController;

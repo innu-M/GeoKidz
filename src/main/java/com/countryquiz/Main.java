@@ -174,6 +174,7 @@ public class Main extends JPanel {
     }
 
 
+
     public void showLevelPanel() {
         // Create fresh level actions
         Runnable[] levelActions = new Runnable[5];

@@ -15,7 +15,7 @@ public class GameController {
     private final UserDatabase userDatabase;
     private User currentUser;
     private volatile boolean isLoggedIn = false; // Added volatile
-    private List<Country> countries;
+    private final List<Country> countries;
 
     public GameController() {
         this.userDatabase = new UserDatabase();

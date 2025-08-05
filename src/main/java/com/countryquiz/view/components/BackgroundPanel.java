@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class BackgroundPanel extends JPanel {
     private BufferedImage backgroundImage;
@@ -13,7 +14,7 @@ public class BackgroundPanel extends JPanel {
         System.out.println(getClass().getResource("/images/leaderboardbg.png"));
 
         try {
-            backgroundImage = ImageIO.read(getClass().getResource(imagePath));
+            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource(imagePath)));
         } catch (IOException e) {
             e.printStackTrace();
         }

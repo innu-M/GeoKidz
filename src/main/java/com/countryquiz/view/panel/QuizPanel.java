@@ -69,84 +69,88 @@ public class QuizPanel extends BackgroundPanel {
 
 
     private void initUI() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        setLayout(null); // Absolute positioning
+
 
         // Back Button
         BackButton backBtn = new BackButton(onBack);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        add(backBtn, gbc);
+        backBtn.setBounds(20, 20, 190, 100);
+        add(backBtn);
 
         // Score Display
         scoreLabel = new JLabel("Score: 0/" + totalQuestions);
         scoreLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-        scoreLabel.setForeground(Color.BLACK);
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.NORTHEAST;
-        add(scoreLabel, gbc);
+        scoreLabel.setBounds(590, 60, 200, 30);
+        add(scoreLabel);
 
-        // Flag Display
+
+//        // Flag Display
         flagLabel = new JLabel();
-        flagLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        add(flagLabel, gbc);
+        flagLabel.setBounds(300, 85, 200, 120);
+        add(flagLabel);
 
-        // Question
         questionLabel = new JLabel();
         questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-        questionLabel.setForeground(Color.BLACK);
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gbc.gridy = 2;
-        add(questionLabel, gbc);
+        questionLabel.setBounds(100, 240, 600, 40);
+        add(questionLabel);
 
-        // Options Panel
-        JPanel optionsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        optionsPanel.setOpaque(false);
+
+//        // Question
+        questionLabel = new JLabel();
+        questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+        questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        questionLabel.setBounds(100, 240, 600, 40);
+        add(questionLabel);
+
+
+
+        //option alignment
         optionButtons = new JButton[4];
+        int startX = 200;
+        int startY = 280;
+        int buttonWidth = 200;
+        int buttonHeight = 50;
+        int gapX = 240;
+        int gapY = 60;
 
         for (int i = 0; i < 4; i++) {
             optionButtons[i] = new JButton();
             optionButtons[i].setFont(new Font("Tahoma", Font.BOLD, 16));
-            optionButtons[i].setBackground(new Color(240, 240, 240));
-            optionButtons[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            optionButtons[i].setForeground(Color.BLACK);
+            int row = i / 2;
+            int col = i % 2;
+            optionButtons[i].setBounds(startX + col * gapX, startY + row * gapY, buttonWidth, buttonHeight);
             optionButtons[i].addActionListener(e -> checkAnswer(e.getSource()));
-            optionsPanel.add(optionButtons[i]);
+            add(optionButtons[i]);
         }
 
-        gbc.gridy = 3;
-        add(optionsPanel, gbc);
 
-        // Result Label
-        resultLabel = new JLabel("");
+
+       // Result Label
+        resultLabel = new JLabel();
         resultLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
         resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gbc.gridy = 4;
-        add(resultLabel, gbc);
+        resultLabel.setBounds(150, 530, 500, 30);
+        add(resultLabel);
 
-        // Navigation Buttons
-        JPanel navPanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        navPanel.setOpaque(false);
+
+        resultLabel = new JLabel();
+        resultLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        resultLabel.setBounds(150, 530, 500, 30);
+        add(resultLabel);
 
         prevButton = new JButton("Previous");
-        prevButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+        prevButton.setBounds(100, 450, 120, 40);
         prevButton.addActionListener(e -> prevQuestion());
+        add(prevButton);
 
         nextButton = new JButton("Next");
-        nextButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+        nextButton.setBounds(530, 450, 120, 40);
         nextButton.addActionListener(e -> nextQuestion());
-
-        navPanel.add(prevButton);
-        navPanel.add(nextButton);
-
-        gbc.gridy = 5;
-        add(navPanel, gbc);
+        add(nextButton);
     }
+
 
     private void nextQuestion() {
         if (quizCompleted) {
