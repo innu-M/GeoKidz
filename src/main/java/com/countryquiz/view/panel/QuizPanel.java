@@ -167,16 +167,17 @@ public class QuizPanel extends BackgroundPanel {
             button.setBackground(new Color(240, 240, 240));
         }
 
-        // For mastery level, randomize question type each time
+        // For mastery level (level 5), randomize question type
+        int currentQuestionType = levelType;
         if (levelType == 5) {
-            levelType = new Random().nextInt(4) + 1;
+            currentQuestionType = new Random().nextInt(4) + 1; // Random between 1-4
         }
 
         // Get a random country
         Collections.shuffle(countries);
         currentCountry = countries.get(0);
 
-        switch (levelType) {
+        switch (getCurrentQuestionType()) {
             case 1: // Flag
                 questionLabel.setText("Which country's flag is this?");
                 correctAnswer = currentCountry.getCountry();
@@ -199,7 +200,7 @@ public class QuizPanel extends BackgroundPanel {
                 break;
         }
 
-        // Generate options with proper names
+        // Generate options
         currentOptions = generateOptions(correctAnswer);
         for (int i = 0; i < 4 && i < currentOptions.size(); i++) {
             optionButtons[i].setText(currentOptions.get(i));
@@ -213,8 +214,55 @@ public class QuizPanel extends BackgroundPanel {
 
 
     private void prevQuestion() {
-        // In a real implementation, you would need to track previous questions and answers
-        // For now, we'll just go back to the start
+        if (questionCount <= 1) {
+            return; // No previous question
+        }
+        questionCount--;
+        resultLabel.setText("");
+        for (JButton button : optionButtons) {
+            button.setEnabled(true);
+            button.setBackground(new Color(240, 240, 240));
+        }
+        // Reset the flag image
+        flagLabel.setIcon(null);
+        // Reset the question label
+        questionLabel.setText("");
+        // Reset the score label
+        scoreLabel.setText("Score: " + score + "/" + totalQuestions);
+        // Reset the result label
+        resultLabel.setText("");
+        // Load the previous question
+        if (currentCountry != null) {
+            switch (levelType) {
+                case 1:
+                    questionLabel.setText("Which country's flag is this?");
+                    correctAnswer = currentCountry.getCountry();
+                    loadFlagImage();
+                    break;
+                case 2:
+                    questionLabel.setText(String.format("What is the capital of %s?", currentCountry.getCountry()));
+                    correctAnswer = currentCountry.getCapital();
+                    flagLabel.setIcon(null);
+                    break;
+                case 3:
+                    questionLabel.setText(String.format("What currency is used in %s?", currentCountry.getCountry()));
+                    correctAnswer = currentCountry.getCurrency();
+                    flagLabel.setIcon(null);
+                    break;
+                case 4:
+                    questionLabel.setText(String.format("What language is spoken in %s?", currentCountry.getCountry()));
+                    correctAnswer = currentCountry.getLanguage();
+                    flagLabel.setIcon(null);
+                    break;
+            }
+            currentOptions = generateOptions(correctAnswer);
+            for (int i = 0; i < 4 && i < currentOptions.size(); i++) {
+                optionButtons[i].setText(currentOptions.get(i));
+            }
+        } else {
+            showError("No previous question available.");
+            return; // No previous question to load
+        }
         resetQuiz();
     }
 
@@ -266,19 +314,38 @@ public class QuizPanel extends BackgroundPanel {
     private String getAnswerForLevelType(Country country) {
         if (country == null) return null;
 
-        switch (levelType) {
-            case 1:
-                return country.getCountry();  // Use getCountry() instead of getName()
-            case 2:
-                return country.getCapital();
-            case 3:
-                return country.getCurrency();
-            case 4:
-                return country.getLanguage();
-            default:
-                return null;
+        // For mastery level, use the current question type
+        int questionType = levelType;
+        if (levelType == 5) {
+            // Determine what type of question this is based on the current question text
+            if (questionLabel.getText().contains("capital")) {
+                questionType = 2;
+            } else if (questionLabel.getText().contains("currency")) {
+                questionType = 3;
+            } else if (questionLabel.getText().contains("language")) {
+                questionType = 4;
+            } else {
+                questionType = 1; // Default to flag
+            }
+        }
+
+        switch (getCurrentQuestionType()) {
+            case 1: return country.getCountry();
+            case 2: return country.getCapital();
+            case 3: return country.getCurrency();
+            case 4: return country.getLanguage();
+            default: return null;
         }
     }
+    private int getCurrentQuestionType() {
+        if (levelType != 5) {
+            return levelType; // Return normal level type for levels 1-4
+        }
+        // For mastery level (5), return random type between 1-4
+        return new Random().nextInt(4) + 1;
+    }
+
+
 
     private void checkAnswer(Object source) {
         JButton selectedButton = (JButton) source;
@@ -323,7 +390,9 @@ public class QuizPanel extends BackgroundPanel {
 
         // Show results in a dialog
         String message = "Your score: " + score + "/10\n";
-        if (score >= 7) {
+        if (levelType == 5) {
+            message += "Mastery Level completed!";
+        } else if (score >= 7) {
             if (levelType < 4) {
                 message += "Level " + (levelType + 1) + " unlocked!";
             } else if (levelType == 4) {
@@ -334,11 +403,8 @@ public class QuizPanel extends BackgroundPanel {
         }
 
         JOptionPane.showMessageDialog(this, message, "Quiz Complete", JOptionPane.INFORMATION_MESSAGE);
-
-        // Return to level selection which will now show the unlocked levels
         returnToLevelSelection();
     }
-
 
     private void resetQuiz() {
         quizCompleted = false;
