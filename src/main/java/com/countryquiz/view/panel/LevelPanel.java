@@ -92,7 +92,7 @@ public class LevelPanel extends BackgroundPanel {
             System.out.println("Back button clicked - executing action");
             onBack.run();
         });
-        backBtn.setBounds(280, 480, 200, 120);
+        backBtn.setBounds(280, 460, 200, 120);
         add(backBtn);
 
         revalidate();

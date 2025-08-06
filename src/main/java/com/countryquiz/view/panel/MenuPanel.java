@@ -44,7 +44,7 @@ public class MenuPanel extends BackgroundPanel {
         welcomeLabel = new JLabel();
         welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
         welcomeLabel.setForeground(Color.black);
-        welcomeLabel.setBounds(280, 150, 350, 30);
+        welcomeLabel.setBounds(280, 140, 350, 30);
         add(welcomeLabel);
 
         levelSelectButton = new TextOverlayButton("", "/images/level.png");
@@ -211,11 +211,11 @@ public class MenuPanel extends BackgroundPanel {
                 "<h1>Protasha's Country Quiz</h1>" +
                 "<p>Learn about countries through 5 exciting levels:</p>" +
                 "<ul>" +
-                "<li>\uD83C\uDDFA\uD83C\uDDF3 Flags</li>" +
-                "<li>\uD83C\uDFD9\uFE0F Capitals</li>" +
-                "<li>\uD83D\uDCB0 Currencies</li>" +
-                "<li>\uD83D\uDDE3\uFE0F Languages</li>" +
-                "<li>\uD83C\uDFC6 Mastery Quiz</li>" +
+                "<li>Flags</li>" +
+                "<li> Capitals</li>" +
+                "<li> Currencies</li>" +
+                "<li>Languages</li>" +
+                "<li> Mastery Quiz</li>" +
                 "</ul>" +
                 "<p>Score 7+ in each level to unlock the next!</p>" +
                 "</center></html>";

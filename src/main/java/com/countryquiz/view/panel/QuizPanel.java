@@ -14,16 +14,16 @@ import javax.swing.Timer;
 import java.net.URL;
 
 public class QuizPanel extends BackgroundPanel {
-    private final GameController gameController;
-    private final Runnable onBack;
-    private final AudioController audioController;
+    private  GameController gameController;
+    private  Runnable onBack;
+    private  AudioController audioController;
     private int levelType;
     private List<Country> countries;
     private Country currentCountry;
     private String correctAnswer;
     private int score = 0;
     private int questionCount = 0;
-    private final int totalQuestions = 10;
+    private  int totalQuestions = 10;
     private boolean quizCompleted = false;
     private List<String> currentOptions = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class QuizPanel extends BackgroundPanel {
     private JLabel flagLabel;
     private JButton nextButton;
     private JButton prevButton;
-    private final Runnable onReturnToLevelSelection;
+    private  Runnable onReturnToLevelSelection;
 
     public QuizPanel(GameController gameController, Runnable onBack, AudioController audioController, int levelType) {
         super("/images/allbg.png");
@@ -130,7 +130,7 @@ public class QuizPanel extends BackgroundPanel {
         resultLabel.setBounds(150, 530, 500, 30);
         add(resultLabel);
 
-        prevButton = new JButton("Previous");
+        prevButton = new JButton("Restart");
         prevButton.setBounds(100, 450, 120, 40);
         prevButton.addActionListener(e -> prevQuestion());
         add(prevButton);
@@ -140,6 +140,7 @@ public class QuizPanel extends BackgroundPanel {
         nextButton.addActionListener(e -> nextQuestion());
         add(nextButton);
     }
+
 
 
     private void nextQuestion() {
@@ -173,41 +174,25 @@ public class QuizPanel extends BackgroundPanel {
 
         switch (getCurrentQuestionType()) {
             case 1: // Flag
-                questionLabel = new JLabel();
-                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-                questionLabel.setBounds(260, 215, 600, 40);
-                add(questionLabel);
+                questionLabel.setBounds(100, 215, 600, 40);
                 questionLabel.setText("Which country's flag is this?");
                 correctAnswer = currentCountry.getCountry();
                 loadFlagImage();
                 break;
             case 2: // Capital
-                questionLabel = new JLabel();
-                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-
-                questionLabel.setBounds(250, 195, 600, 40);
-                add(questionLabel);
+                questionLabel.setBounds(100, 195, 600, 40);
                 questionLabel.setText(String.format("What is the capital of %s?", currentCountry.getCountry()));
                 correctAnswer = currentCountry.getCapital();
                 flagLabel.setIcon(null);
                 break;
             case 3: // Currency
-                questionLabel = new JLabel();
-                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-
-                questionLabel.setBounds(250, 195, 600, 40);
-                add(questionLabel);
+                questionLabel.setBounds(100, 195, 600, 40);
                 questionLabel.setText(String.format("What currency is used in %s?", currentCountry.getCountry()));
                 correctAnswer = currentCountry.getCurrency();
                 flagLabel.setIcon(null);
                 break;
             case 4: // Language
-                questionLabel = new JLabel();
-                questionLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-
-                questionLabel.setBounds(240, 195, 600, 40);
-                add(questionLabel);
-
+                questionLabel.setBounds(100, 195, 600, 40);
                 questionLabel.setText(String.format("What language is spoken in %s?", currentCountry.getCountry()));
                 correctAnswer = currentCountry.getLanguage();
                 flagLabel.setIcon(null);
@@ -225,7 +210,6 @@ public class QuizPanel extends BackgroundPanel {
         questionCount++;
         updateNavButtons();
     }
-
 
     private void prevQuestion() {
         if (questionCount <= 1) {
