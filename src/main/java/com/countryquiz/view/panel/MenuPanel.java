@@ -10,13 +10,14 @@ import com.countryquiz.view.components.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.List;
 
 public class MenuPanel extends BackgroundPanel {
     private final GameController gameController;
     private final Runnable onLevelSelect;
+    private final Runnable showLearningPanel; // Changed to Runnable
     private final Runnable onLogout;
     private final AudioController audioController;
-
 
     private JLabel welcomeLabel;
     private TextOverlayButton levelSelectButton;
@@ -25,18 +26,22 @@ public class MenuPanel extends BackgroundPanel {
     private TextOverlayButton aboutButton;
     private TextOverlayButton logoutButton;
     private BackButton backButton;
-    private ImageButton quizImageButton;
     private TextOverlayButton leaderboardButton;
+    private TextOverlayButton learningButton;
 
-    public MenuPanel(GameController gameController, Runnable onLevelSelect,
-                     Runnable onLogout, AudioController audioController) {
+    public MenuPanel(GameController gameController,
+                     Runnable onLevelSelect,
+                     Runnable showLearningPanel, // Correct type
+                     Runnable onLogout,
+                     AudioController audioController) {
         super("/images/allbg.png");
         this.gameController = gameController;
         this.onLevelSelect = onLevelSelect;
+        this.showLearningPanel = showLearningPanel; // Correct assignment
         this.onLogout = onLogout;
         this.audioController = audioController;
 
-        setLayout(null); // Absolute positioning
+        setLayout(null);
         initComponents();
     }
 
@@ -52,16 +57,21 @@ public class MenuPanel extends BackgroundPanel {
         levelSelectButton.addActionListener(e -> onLevelSelect.run());
         add(levelSelectButton);
 
+        learningButton = new TextOverlayButton("", "/images/leaderboard.png");
+        learningButton.setBounds(250, 250, 300, 100);
+        learningButton.addActionListener(e -> showLearningPanel.run()); // Fixed lambda
+        add(learningButton);
+
         scoresButton = new TextOverlayButton("", "/images/score.png");
-        scoresButton.setBounds(250, 250, 300, 100);
+        scoresButton.setBounds(250, 340, 300, 100);
         scoresButton.addActionListener(e -> {
             audioController.playSoundEffect("click");
             showHighScores();
         });
         add(scoresButton);
-        // Add Leaderboard Button after High Scores
+
         leaderboardButton = new TextOverlayButton("", "/images/leaderboard.png");
-        leaderboardButton.setBounds(250, 340, 300, 100); // Positioned below scores button
+        leaderboardButton.setBounds(250, 430, 300, 100);
         leaderboardButton.addActionListener(e -> showLeaderboard());
         add(leaderboardButton);
 
@@ -79,12 +89,11 @@ public class MenuPanel extends BackgroundPanel {
         add(aboutButton);
 
         logoutButton = new TextOverlayButton("", "/images/logout.png");
-        logoutButton.setBounds(520, 470, 200, 120);
-
+        logoutButton.setBounds(520, 460, 200, 120);
         logoutButton.addActionListener(e -> {
             gameController.logout();
             onLogout.run();
-            refreshUI(); // Ensure UI updates
+            refreshUI();
         });
         add(logoutButton);
 
@@ -95,6 +104,7 @@ public class MenuPanel extends BackgroundPanel {
         backButton.setBounds(28, 460, 200, 120);
         add(backButton);
     }
+
 
     private void showLeaderboard() {
         // Create a dialog to display the leaderboard
@@ -116,7 +126,7 @@ public class MenuPanel extends BackgroundPanel {
         };
 
         // Get and sort users by total score
-        java.util.List<User> users = gameController.getUserDatabase().getAllUsers();
+        List<User> users = gameController.getUserDatabase().getAllUsers();
         users.sort((u1, u2) -> {
             int total1 = u1.getLevelScore(1) + u1.getLevelScore(2) + u1.getLevelScore(3) + u1.getLevelScore(4);
             int total2 = u2.getLevelScore(1) + u2.getLevelScore(2) + u2.getLevelScore(3) + u2.getLevelScore(4);

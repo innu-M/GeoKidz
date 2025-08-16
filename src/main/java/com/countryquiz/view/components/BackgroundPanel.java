@@ -10,12 +10,11 @@ import java.util.Objects;
 public class BackgroundPanel extends JPanel {
     private BufferedImage backgroundImage;
 
-    public BackgroundPanel(String imagePath) {
-        System.out.println(getClass().getResource("/images/leaderboardbg.png"));
 
+    public BackgroundPanel(String imagePath) {
         try {
-            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource(imagePath)));
-        } catch (IOException e) {
+            backgroundImage = ImageIO.read(getClass().getResource(imagePath));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         setOpaque(false);

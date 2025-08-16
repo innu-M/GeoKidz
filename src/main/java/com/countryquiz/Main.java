@@ -70,6 +70,7 @@ public class Main extends JPanel {
         panels.put("menu", new MenuPanel(
                 gameController,
                 this::showLevelPanel,
+                this::showLearningPanel, // Updated to use our new method
                 this::handleLogout,
                 audioController
         ));
@@ -85,6 +86,13 @@ public class Main extends JPanel {
                 gameController,
                 levelActions,
                 this::showMenuPanel
+        ));
+
+        // Learning Panel
+        panels.put("learn", new LearningPanel(
+                gameController,
+                this::showMenuPanel,
+                () -> showQuizPanel(1)
         ));
 
         // Add authenticated panels to main panel
@@ -193,6 +201,20 @@ public class Main extends JPanel {
 
         // Refresh the panel
         levelPanel.refreshLevels();
+    }
+    public void showLearningPanel() {
+        String panelName = "learn";
+
+        if (!panels.containsKey(panelName)) {
+            panels.put(panelName, new LearningPanel(
+                    gameController,
+                    this::showMenuPanel, // Back action returns to menu
+                    () -> showQuizPanel(1) // Quiz action starts level 1 quiz
+            ));
+            mainPanel.add(panels.get(panelName), panelName);
+        }
+
+        cardLayout.show(mainPanel, panelName);
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
