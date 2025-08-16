@@ -12,12 +12,28 @@ public class Country {
     public String getCapital() { return capital; }
     public String getLanguage() { return language; }
     public String getFlag() { return flag; }
-    public String getCurrency() { return currency; }
 
-    // Setters
-    public void setCountry(String country) { this.country = country; }
-    public void setCapital(String capital) { this.capital = capital; }
-    public void setLanguage(String language) { this.language = language; }
-    public void setFlag(String flag) { this.flag = flag; }
-    public void setCurrency(String currency) { this.currency = currency; }
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 }
