@@ -6,7 +6,6 @@ import java.awt.*;
 public class BackButton extends JButton {
     private static final String[] IMAGE_PATHS = {
             "/images/back_button.png",
-            "images/back_button.png",
             "src/main/resources/images/back_button.png"
     };
 

@@ -53,17 +53,17 @@ public class MenuPanel extends BackgroundPanel {
         add(welcomeLabel);
 
         levelSelectButton = new TextOverlayButton("", "/images/level.png");
-        levelSelectButton.setBounds(250, 160, 300, 100);
+        levelSelectButton.setBounds(155, 210, 300, 100);
         levelSelectButton.addActionListener(e -> onLevelSelect.run());
         add(levelSelectButton);
 
-        learningButton = new TextOverlayButton("", "/images/leaderboard.png");
-        learningButton.setBounds(250, 250, 300, 100);
+        learningButton = new TextOverlayButton("", "/images/learn.png");
+        learningButton.setBounds(345, 210, 300, 100);
         learningButton.addActionListener(e -> showLearningPanel.run()); // Fixed lambda
         add(learningButton);
 
         scoresButton = new TextOverlayButton("", "/images/score.png");
-        scoresButton.setBounds(250, 340, 300, 100);
+        scoresButton.setBounds(155, 330, 300, 100);
         scoresButton.addActionListener(e -> {
             audioController.playSoundEffect("click");
             showHighScores();
@@ -71,7 +71,7 @@ public class MenuPanel extends BackgroundPanel {
         add(scoresButton);
 
         leaderboardButton = new TextOverlayButton("", "/images/leaderboard.png");
-        leaderboardButton.setBounds(250, 430, 300, 100);
+        leaderboardButton.setBounds(345, 330, 300, 100);
         leaderboardButton.addActionListener(e -> showLeaderboard());
         add(leaderboardButton);
 
@@ -218,7 +218,7 @@ public class MenuPanel extends BackgroundPanel {
 
     private void showAboutDialog() {
         String aboutText = "<html><center>" +
-                "<h1>Protasha's Country Quiz</h1>" +
+                "<h1>Prottasha's Country Quiz</h1>" +
                 "<p>Learn about countries through 5 exciting levels:</p>" +
                 "<ul>" +
                 "<li>Flags</li>" +

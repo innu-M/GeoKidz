@@ -5,7 +5,6 @@ import com.countryquiz.controller.GameController;
 import com.countryquiz.controller.AudioController;
 import com.countryquiz.model.Country;
 import com.countryquiz.view.components.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -116,7 +115,7 @@ public class QuizPanel extends BackgroundPanel {
 
 
 
-       // Result Label
+        // Result Label
         resultLabel = new JLabel();
         resultLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
         resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -311,7 +310,6 @@ public class QuizPanel extends BackgroundPanel {
         return options;
     }
 
-
     private String getAnswerForLevelType(Country country) {
         if (country == null) return null;
 
@@ -445,7 +443,6 @@ public class QuizPanel extends BackgroundPanel {
             }
         }
     }
-
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
         onBack.run();

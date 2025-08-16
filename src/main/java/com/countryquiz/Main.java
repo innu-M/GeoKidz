@@ -91,8 +91,8 @@ public class Main extends JPanel {
         // Learning Panel
         panels.put("learn", new LearningPanel(
                 gameController,
-                this::showMenuPanel,
-                () -> showQuizPanel(1)
+                this::showMenuPanel
+
         ));
 
         // Add authenticated panels to main panel
@@ -208,8 +208,8 @@ public class Main extends JPanel {
         if (!panels.containsKey(panelName)) {
             panels.put(panelName, new LearningPanel(
                     gameController,
-                    this::showMenuPanel, // Back action returns to menu
-                    () -> showQuizPanel(1) // Quiz action starts level 1 quiz
+                    this::showMenuPanel// Back action returns to menu
+
             ));
             mainPanel.add(panels.get(panelName), panelName);
         }

@@ -57,7 +57,7 @@ public class LevelPanel extends BackgroundPanel {
         loginButton.setBounds(290, 270, 200, 120);
         add(loginButton);
     }
- private void createLevelButtons() {
+    private void createLevelButtons() {
         removeAll();
 
         User user = gameController.getCurrentUser();
