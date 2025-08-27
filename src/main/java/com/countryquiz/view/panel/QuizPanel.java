@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import javax.swing.Timer;
 import java.net.URL;
 
 public class QuizPanel extends BackgroundPanel {
@@ -310,6 +309,7 @@ public class QuizPanel extends BackgroundPanel {
         return options;
     }
 
+
     private String getAnswerForLevelType(Country country) {
         if (country == null) return null;
 
@@ -359,7 +359,6 @@ public class QuizPanel extends BackgroundPanel {
                 button.setBackground(Color.RED);
             }
         }
-
         // Audio feedback
         if (isCorrect) {
             score++;
@@ -443,6 +442,7 @@ public class QuizPanel extends BackgroundPanel {
             }
         }
     }
+
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
         onBack.run();

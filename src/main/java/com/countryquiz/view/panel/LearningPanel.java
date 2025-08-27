@@ -77,12 +77,12 @@ public class LearningPanel extends BackgroundPanel {
 
         // Navigation Buttons
         ImageButton prevBtn = new ImageButton("/images/prev_button.png", 100, 70);
-        prevBtn.setBounds(180, 410, 190, 100);
+        prevBtn.setBounds(170, 410, 190, 100);
         prevBtn.addActionListener(e -> showPreviousCountry());
         add(prevBtn);
 
         ImageButton nextBtn = new ImageButton("/images/next2.png", 100, 70);
-        nextBtn.setBounds(420, 410, 190, 100);
+        nextBtn.setBounds(430, 410, 190, 100);
         nextBtn.addActionListener(e -> showNextCountry());
         add(nextBtn);
 

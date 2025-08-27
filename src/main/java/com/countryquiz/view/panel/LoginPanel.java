@@ -14,7 +14,7 @@ public class LoginPanel extends BackgroundPanel {
     }
 
     private void initUI(Runnable onLogin, Runnable onRegister, Runnable onBack) {
-        setLayout(null); // ✅ Absolute positioning
+        setLayout(null);
 
         // Back Button
         BackButton backBtn = new BackButton(onBack);

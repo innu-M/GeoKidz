@@ -27,7 +27,7 @@ public class Main extends JPanel {
     }
 
     private void initializeFrame() {
-        frame = new JFrame("Country Quiz");
+        frame = new JFrame("GEOKIDZ");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setResizable(false); // 🟡 Fixed-size window
@@ -39,7 +39,7 @@ public class Main extends JPanel {
     }
 
     private void createPanels() {
-        // Unauthenticated panels
+
         panels.put("welcome", new WelcomePanel(
                 this::showLoginPanel,
                 audioController::toggleMusic
@@ -92,7 +92,6 @@ public class Main extends JPanel {
         panels.put("learn", new LearningPanel(
                 gameController,
                 this::showMenuPanel
-
         ));
 
         // Add authenticated panels to main panel
@@ -166,12 +165,12 @@ public class Main extends JPanel {
 
 
     private void showQuizPanel(int level) {
-        String panelName = "quiz" + level;
+        String panelName = "Quiz" + level;
 
         if (!panels.containsKey(panelName)) {
             panels.put(panelName, new QuizPanel(
                     gameController,
-                    this::showLevelPanel, // Properly connected back action
+                    this::showLevelPanel,
                     audioController,
                     level
             ));
@@ -184,7 +183,6 @@ public class Main extends JPanel {
 
 
     public void showLevelPanel() {
-        // Create fresh level actions
         Runnable[] levelActions = new Runnable[5];
         for (int i = 0; i < 5; i++) {
             final int level = i + 1;
@@ -196,7 +194,6 @@ public class Main extends JPanel {
         panels.put("levels", levelPanel);
         mainPanel.add(levelPanel, "levels");
 
-        // Show the panel
         cardLayout.show(mainPanel, "levels");
 
         // Refresh the panel
@@ -213,9 +210,9 @@ public class Main extends JPanel {
             ));
             mainPanel.add(panels.get(panelName), panelName);
         }
-
         cardLayout.show(mainPanel, panelName);
     }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {

@@ -14,7 +14,6 @@ public class TextOverlayButton extends JButton {
         setFont(new Font("Arial", Font.BOLD, 14));
 
         try {
-            // Try to load the specified image
             ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
             if (icon.getImage() == null) {
                 throw new RuntimeException("Image not found: " + imagePath);
@@ -27,14 +26,14 @@ public class TextOverlayButton extends JButton {
         }
     }
 
-    public TextOverlayButton(String text, int width, int height) {
-        this(text, "/images/button_bg.png"); // Use default image
-        // Resize if different dimensions are requested
-        if (width != 150 || height != 25) {
-            ImageIcon icon = (ImageIcon) getIcon();
-            if (icon != null) {
-                setIcon(new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
-            }
-        }
-    }
+//    public TextOverlayButton(String text, int width, int height) {
+//        this(text, "/images/button_bg.png"); // Use default image
+//        // Resize if different dimensions are requested
+//        if (width != 150 || height != 25) {
+//            ImageIcon icon = (ImageIcon) getIcon();
+//            if (icon != null) {
+//                setIcon(new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+//            }
+//        }
+//    }
 }

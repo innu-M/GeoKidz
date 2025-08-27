@@ -21,9 +21,9 @@ public class AudioController {
         try {
             loadBackgroundMusic();
             loadSoundEffects();
-            System.out.println("Audio initialized successfully");
+//            System.out.println("Audio initialized successfully");
         } catch (Exception e) {
-            System.err.println("Audio initialization error: " + e.getMessage());
+//            System.err.println("Audio initialization error: " + e.getMessage());
             initializeFallbackAudio();
         }
     }
@@ -35,7 +35,7 @@ public class AudioController {
             soundEffects.put("wrong", AudioSystem.getClip());
             soundEffects.put("click", AudioSystem.getClip());
         } catch (LineUnavailableException e) {
-            System.err.println("Failed to initialize fallback audio: " + e.getMessage());
+//            System.err.println("Failed to initialize fallback audio: " + e.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class AudioController {
         FloatControl volumeControl = (FloatControl) backgroundMusic.getControl(FloatControl.Type.MASTER_GAIN);
         float dB = (float) (20 * Math.log10(volume));
         volumeControl.setValue(dB);
-        System.out.println("Volume set to: " + volume + " (dB: " + dB + ")");
+//        System.out.println("Volume set to: " + volume + " (dB: " + dB + ")");
     }
 
     private void loadSoundEffects() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -94,7 +94,7 @@ public class AudioController {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error playing " + effectName + ": " + e.getMessage());
+//            System.err.println("Error playing " + effectName + ": " + e.getMessage());
         }
     }
     public void toggleMusic() {

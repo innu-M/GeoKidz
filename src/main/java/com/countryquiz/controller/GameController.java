@@ -182,7 +182,7 @@ public class GameController {
     }
 
     public LeaderboardPanel getLeaderboardPanel() {
-        return new LeaderboardPanel(this); // Pass the controller instead of just userDatabase
+        return new LeaderboardPanel(this);
     }
     public UserDatabase getUserDatabase() {
         return this.userDatabase;

@@ -27,7 +27,7 @@ public class BackButton extends JButton {
             Image scaledImage = icon.getImage().getScaledInstance(100, 70, Image.SCALE_SMOOTH);
             setIcon(new ImageIcon(scaledImage));
         } else {
-            System.err.println("Back button image not found, using text fallback");
+//            System.err.println("Back button image not found, using text fallback");
             setText("< Back");
             setForeground(Color.WHITE);
             setFont(new Font("Arial", Font.BOLD, 14));

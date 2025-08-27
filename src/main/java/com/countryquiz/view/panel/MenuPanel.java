@@ -15,7 +15,7 @@ import java.util.List;
 public class MenuPanel extends BackgroundPanel {
     private final GameController gameController;
     private final Runnable onLevelSelect;
-    private final Runnable showLearningPanel; // Changed to Runnable
+    private Runnable showLearningPanel = null; // Changed to Runnable
     private final Runnable onLogout;
     private final AudioController audioController;
 
@@ -29,11 +29,8 @@ public class MenuPanel extends BackgroundPanel {
     private TextOverlayButton leaderboardButton;
     private TextOverlayButton learningButton;
 
-    public MenuPanel(GameController gameController,
-                     Runnable onLevelSelect,
-                     Runnable showLearningPanel, // Correct type
-                     Runnable onLogout,
-                     AudioController audioController) {
+    public MenuPanel(GameController gameController,Runnable onLevelSelect,Runnable showLearningPanel,
+                     Runnable onLogout,AudioController audioController) {
         super("/images/allbg.png");
         this.gameController = gameController;
         this.onLevelSelect = onLevelSelect;
@@ -84,7 +81,7 @@ public class MenuPanel extends BackgroundPanel {
         add(musicToggleButton);
 
         aboutButton = new TextOverlayButton("", "/images/about.png");
-        aboutButton.setBounds(10, 5, 160, 220);
+        aboutButton.setBounds(10, 5, 160, 250);
         aboutButton.addActionListener(e -> showAboutDialog());
         add(aboutButton);
 
