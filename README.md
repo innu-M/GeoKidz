@@ -1,111 +1,95 @@
-# CodeJudge
+# GeoKidz
 
-**A lightweight C program testing and static analysis tool, written in C.**
+**A geography quiz game for kids, built with Java Swing.**
 
-Built for Software Project Lab 1 (SPL1) at the Institute of Information Technology (IIT), University of Dhaka.
+GeoKidz helps children learn about countries through flags, capitals, currencies, and languages. Players create an account, learn first in a study mode, then play quiz levels that unlock as their scores improve. A leaderboard shows how everyone is doing.
 
-CodeJudge is a **terminal application** that runs on your own machine. It compiles a C source file, runs it against test cases you provide, compares the output with the expected output, and gives a quick static analysis of the source code. It is inspired by online judges, but it is **not** a web platform: there are no user accounts, no problem set, and no server.
+It is a desktop application that runs locally. There is no server or internet connection needed.
 
 ## Features
 
-**Testing**
-- Compiles a C file with GCC and shows compilation errors (execution is skipped if compilation fails).
-- Runs multiple test cases per program. Input and expected output can be typed in or read from files.
-- Compares the actual output with the expected output and shows the difference when they do not match.
-- Stops programs that run longer than 10 seconds (protection against infinite loops).
-- Shows a result summary: total, passed, failed, and pass percentage, plus per-test details.
+- **Learning mode:** browse countries and study their flag, capital, currency, and language before playing.
+- **Five quiz levels:**
+  - Level 1: flags
+  - Level 2: capitals
+  - Level 3: currencies
+  - Level 4: languages
+  - Level 5: mastery, with a random mix of all four question types
+- **Level unlocking:** each level has 10 questions. Score **7 or more** to unlock the next level.
+- **Accounts:** register and log in. Each player's level scores and progress are saved.
+- **Leaderboard:** sort players by total score or by a single category (flags, capitals, currencies, languages) or by name.
+- **Sound:** background music with a mute toggle, plus sounds for clicks and for correct and wrong answers.
+- **Data:** 73 countries with a flag image for each, stored in `countries.json`.
 
-**Static analysis**
-- **Cyclomatic complexity:** counts decision points (`if`, `while`, `for`, `case`, `&&`, `||`).
-- **Cognitive complexity and nesting depth:** estimates how hard the code is to read.
-- **Buffer overflow risk:** finds fixed-size `char` buffers and unsafe calls (`gets`, `strcpy`, `strcat`, `sprintf`), tracks simple cases where user input flows into them, and reports a risk score with a LOW / MEDIUM / HIGH level.
+## Built with
 
-**Sessions**
-- Load several source files in one run, switch between them, and keep a separate test history for each.
-
-## Limitations
-
-Please read these before relying on the results.
-
-- **The analysis is heuristic.** It reads the source as text and matches keywords and patterns. It does not parse C, so it can miss problems (false negatives) or flag harmless code (false positives). Treat the numbers as a rough guide, not a verdict.
-- **Output comparison is an exact text match.** There is no tolerance for extra whitespace or for floating-point differences.
-- **Only a time limit is enforced.** There is no memory limit and no sandbox. Programs are run directly on your machine, so **do not run code you do not trust.**
-- **Single-user and local only.** It tests one program at a time, from the terminal.
-- **Needs the `timeout` command**, so it works on Linux and WSL. On macOS, install GNU coreutils (`brew install coreutils`) and make `timeout` available.
+- Java (Swing for the interface)
+- [Gson](https://github.com/google/gson) for saving user data as JSON
+- MVC-style structure: `model`, `view`, and `controller` packages
 
 ## Requirements
 
-- GCC
-- Linux, WSL, or macOS with `timeout` available
+- JDK 11 or newer
+- `gson-2.10.1.jar` (already included in this repository)
 
-## Build
+## How to run
 
-From the project root:
+From the project root, compile and copy the resources (images, audio, data) next to the compiled classes.
 
-```bash
-gcc src/codejudge.c src/Testing.c src/cognitive.c src/cyclomatic.c src/metrics.c src/mathlib.c src/output_com.c src/Buffer_overflow.c -o codejudge
-```
-
-## Run
+**Linux / macOS**
 
 ```bash
-./codejudge
+mkdir -p out
+javac -cp gson-2.10.1.jar -d out $(find src/main/java -name "*.java")
+cp -r src/main/resources/* out/
+java -cp out:gson-2.10.1.jar com.countryquiz.Main
 ```
 
-Enter the path to the C file you want to test, then use the menu:
+**Windows (PowerShell)**
 
-```
-=================== MENU ===================
-1. Run Test Case
-2. View Test Results
-3. Analyze Code Metrics
-4. Advanced Metrics
-5. Buffer Overflow Risk Analysis
-6. Add New File
-7. Switch File
-8. Exit
-============================================
+```powershell
+mkdir out
+javac -cp gson-2.10.1.jar -d out (Get-ChildItem -Recurse src/main/java -Filter *.java).FullName
+Copy-Item -Recurse src/main/resources/* out/
+java -cp "out;gson-2.10.1.jar" com.countryquiz.Main
 ```
 
-## Try it
+You can also open the project in IntelliJ IDEA, add `gson-2.10.1.jar` as a library, and run `com.countryquiz.Main`.
 
-The `demo/` folder has sample programs with matching input and expected-output files.
+Run it from the project root: the app reads and writes `users.txt` in the folder you start it from.
 
-1. Run `./codejudge` and enter `demo/sort.c` as the file path.
-2. Choose **1. Run Test Case**, pick **File** for the input, and give `demo/sortin1.txt`.
-3. Pick **File** for the expected output and give `demo/sortout1.txt`.
-4. Choose **2** to see the result, and **3**, **4** or **5** to see the analysis.
+## How to play
 
-The `test/` folder has small programs for edge cases: a compile error (`ce.c`), a runtime error (`re1.c`), and an infinite loop (`timeout.c`). The `t/` folder has larger sample programs (Dijkstra, KMP, Fenwick tree) and an unsafe-buffer example (`buff.c`) for the overflow check.
+1. Register a new account and log in.
+2. Open **Learn** to study the countries.
+3. Pick **Level 1** and answer the questions.
+4. Score 7 or more to unlock the next level.
+5. Check the **Leaderboard** to compare scores.
 
 ## Project structure
 
 ```
-CodeJudge/
-├── src/
-│   ├── codejudge.c        # main program and menu
-│   ├── Testing.c / .h     # compile, run, compare, results
-│   ├── cyclomatic.c       # cyclomatic complexity
-│   ├── cognitive.c        # cognitive complexity and nesting
-│   ├── Buffer_overflow.c  # buffer overflow risk analysis
-│   ├── metrics.c / .h     # shared metrics structures
-│   ├── mathlib.c / .h     # helper functions
-│   └── output_com.c       # output display and diff
-├── demo/                  # sample programs with input/output files
-├── test/                  # edge-case programs
-├── t/                     # larger sample programs
-├── Presentation/          # mid-project presentation
-└── README.md
+GeoKidz/
+├── src/main/java/com/countryquiz/
+│   ├── Main.java               # window and screen navigation
+│   ├── model/                  # Country, User, UserDatabase
+│   ├── view/
+│   │   ├── panel/              # login, register, menu, learning, levels, quiz, leaderboard
+│   │   └── components/         # buttons and background panels
+│   └── controller/             # GameController (progress), AudioController (sound)
+├── src/main/resources/
+│   ├── data/countries.json
+│   ├── images/                 # interface images and country flags
+│   └── audio/                  # music and sound effects
+└── gson-2.10.1.jar
 ```
 
-## Concepts used
+## Known limitations
 
-Dynamic memory (`malloc`, `realloc`, `free`), file handling, process execution with `system()`, text-based static analysis, simple taint tracking, and struct-based design in C.
+- **Passwords are stored in plain text** in `users.txt`. This is fine for a classroom demo on one computer, but do not use a real password.
+- Player data is saved to a local file, so progress stays on the computer where the game was played.
+- Questions are picked at random, so a country can appear more than once in the same level.
 
 ## Author
 
-**Fahmida Munni**, BSSE, IIT, University of Dhaka
-
-## Supervisor
-
-**Md. Saeed Siddik**, Assistant Professor, IIT, University of Dhaka
+**Fahmida Munni**, BSSE, Institute of Information Technology, University of Dhaka
